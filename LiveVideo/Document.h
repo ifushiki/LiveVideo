@@ -10,6 +10,10 @@
 
 @interface Document : NSDocument
 
+// Open and close handle for a dynamic library.
+- (void) openDwDynamicLib;
+- (void) closeDwDynamicLib;
+- (void) testLibraries;
 
 @end
 

@@ -14,6 +14,8 @@
 		667ADA5A1A271E5D008FAD29 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA591A271E5D008FAD29 /* Images.xcassets */; };
 		667ADA5D1A271E5D008FAD29 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA5B1A271E5D008FAD29 /* MainMenu.xib */; };
 		667ADA691A271E5D008FAD29 /* LiveVideoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA681A271E5D008FAD29 /* LiveVideoTests.m */; };
+		667ADA771A271F99008FAD29 /* libDwDynamicLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 667ADA761A271F99008FAD29 /* libDwDynamicLib.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
+		667ADA791A27207D008FAD29 /* libDwStaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 667ADA781A27207D008FAD29 /* libDwStaticLib.a */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,8 @@
 		667ADA621A271E5D008FAD29 /* LiveVideoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LiveVideoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		667ADA671A271E5D008FAD29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		667ADA681A271E5D008FAD29 /* LiveVideoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveVideoTests.m; sourceTree = "<group>"; };
+		667ADA761A271F99008FAD29 /* libDwDynamicLib.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libDwDynamicLib.dylib; path = "../../../../Library/Developer/Xcode/DerivedData/DigitarWorld-ddrnhfzfpqntnzalkqhppurejvyv/Build/Products/Debug/libDwDynamicLib.dylib"; sourceTree = "<group>"; };
+		667ADA781A27207D008FAD29 /* libDwStaticLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libDwStaticLib.a; path = "../../../../Library/Developer/Xcode/DerivedData/DigitarWorld-ddrnhfzfpqntnzalkqhppurejvyv/Build/Products/Debug/libDwStaticLib.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +51,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				667ADA771A271F99008FAD29 /* libDwDynamicLib.dylib in Frameworks */,
+				667ADA791A27207D008FAD29 /* libDwStaticLib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +69,8 @@
 		667ADA401A271E5D008FAD29 = {
 			isa = PBXGroup;
 			children = (
+				667ADA781A27207D008FAD29 /* libDwStaticLib.a */,
+				667ADA761A271F99008FAD29 /* libDwDynamicLib.dylib */,
 				667ADA4B1A271E5D008FAD29 /* LiveVideo */,
 				667ADA651A271E5D008FAD29 /* LiveVideoTests */,
 				667ADA4A1A271E5D008FAD29 /* Products */,
@@ -346,6 +354,12 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = LiveVideo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/ikko/Desktop/Projects/DigitarWorld/DwCommon/DwDynamicLib/build/Debug,
+					/Users/ikko/Desktop/Projects/DigitarWorld/DwCommon/DwStaticLib/build/Debug,
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/DigitarWorld-ddrnhfzfpqntnzalkqhppurejvyv/Build/Products/Debug",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -357,6 +371,12 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = LiveVideo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/ikko/Desktop/Projects/DigitarWorld/DwCommon/DwDynamicLib/build/Debug,
+					/Users/ikko/Desktop/Projects/DigitarWorld/DwCommon/DwStaticLib/build/Debug,
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/DigitarWorld-ddrnhfzfpqntnzalkqhppurejvyv/Build/Products/Debug",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -407,7 +427,7 @@
 				667ADA6B1A271E5D008FAD29 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		667ADA6C1A271E5D008FAD29 /* Build configuration list for PBXNativeTarget "LiveVideo" */ = {
 			isa = XCConfigurationList;
@@ -416,6 +436,7 @@
 				667ADA6E1A271E5D008FAD29 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 		667ADA6F1A271E5D008FAD29 /* Build configuration list for PBXNativeTarget "LiveVideoTests" */ = {
 			isa = XCConfigurationList;
@@ -424,6 +445,7 @@
 				667ADA711A271E5D008FAD29 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
