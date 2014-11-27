@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 IKKO FUSHIKI. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "MyImports.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 

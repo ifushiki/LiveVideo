@@ -44,6 +44,7 @@
 		667ADA681A271E5D008FAD29 /* LiveVideoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveVideoTests.m; sourceTree = "<group>"; };
 		667ADA761A271F99008FAD29 /* libDwDynamicLib.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libDwDynamicLib.dylib; path = "../../../../Library/Developer/Xcode/DerivedData/DigitarWorld-ddrnhfzfpqntnzalkqhppurejvyv/Build/Products/Debug/libDwDynamicLib.dylib"; sourceTree = "<group>"; };
 		667ADA781A27207D008FAD29 /* libDwStaticLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libDwStaticLib.a; path = "../../../../Library/Developer/Xcode/DerivedData/DigitarWorld-ddrnhfzfpqntnzalkqhppurejvyv/Build/Products/Debug/libDwStaticLib.a"; sourceTree = "<group>"; };
+		667ADA861A279034008FAD29 /* MyImports.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyImports.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +90,7 @@
 		667ADA4B1A271E5D008FAD29 /* LiveVideo */ = {
 			isa = PBXGroup;
 			children = (
+				667ADA861A279034008FAD29 /* MyImports.h */,
 				667ADA4E1A271E5D008FAD29 /* AppDelegate.h */,
 				667ADA4F1A271E5D008FAD29 /* AppDelegate.m */,
 				667ADA531A271E5D008FAD29 /* Document.h */,

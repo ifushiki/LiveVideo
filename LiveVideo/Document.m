@@ -7,10 +7,6 @@
 //
 
 #import "Document.h"
-#import <objc/runtime.h>
-#import <dlfcn.h>
-#import "../../DWCommon/DwDynamicLib/DwDynamicLib/DwDynamicLib.h"
-#import "../../DWCommon/DwStaticLib/DwStaticLib/DwStaticLib.h"
 
 @interface Document ()
 {
@@ -29,54 +25,6 @@
         [self testLibraries];
     }
     return self;
-}
-
-- (void) openDwDynamicLib
-{
-    // Add your subclass-specific initialization here.
-    // Open the library.
-    lib_handle = dlopen("./libDwDynamicLib.dylib", RTLD_LOCAL);
-    if (!lib_handle) {
-        NSLog(@"[%s] main: Unable to open library: %s\n",
-              __FILE__, dlerror());
-        exit(EXIT_FAILURE);
-    }
-}
-
-- (void) closeDwDynamicLib
-{
-    // Close the library.
-    if (dlclose(lib_handle) != 0) {
-        NSLog(@"[%s] Unable to close library: %s\n",
-              __FILE__, dlerror());
-        exit(EXIT_FAILURE);
-    }
-}
-
-- (void) testLibraries
-{
-    // Get the HelloDynLib class (required with runtime-loaded libraries).
-    Class HelloDynamicLib_class = objc_getClass("HelloDynamicLib");
-    if (!HelloDynamicLib_class) {
-        NSLog(@"[%s] main: Unable to get HelloDynamicLib class", __FILE__);
-        exit(EXIT_FAILURE);
-    }
-    
-    // Create an instance of HelloDynLib.
-    NSLog(@"[%s] main: Instantiating HelloDynamicLib_class", __FILE__);
-    NSObject<HelloDynamicLib>* helloDynamicLib = [HelloDynamicLib_class new];
-    // Use person.
-    [helloDynamicLib setMessage:@"Hello Dynamic Library"];
-    NSLog(@"[%s] main: [helloDynamicLib message] = %@", __FILE__, [helloDynamicLib message]);
-    
-    HelloStaticLib *helloStaticLib = [[HelloStaticLib alloc] init];
-    if (!helloStaticLib)
-    {
-        NSLog(@"[%s] main: Unable to create HelloStaticLib class", __FILE__);
-        exit(EXIT_FAILURE);
-    }
-    [helloStaticLib setMessage:@"Hello Static Library"];
-    NSLog(@"[%s] main: [helloStaticLib message] = %@", __FILE__, [helloStaticLib message]);
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {
