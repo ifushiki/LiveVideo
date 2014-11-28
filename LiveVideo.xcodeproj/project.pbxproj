@@ -10,9 +10,9 @@
 		667ADA501A271E5D008FAD29 /* LiveVideoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA4F1A271E5D008FAD29 /* LiveVideoAppDelegate.m */; };
 		667ADA521A271E5D008FAD29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA511A271E5D008FAD29 /* main.m */; };
 		667ADA551A271E5D008FAD29 /* LiveVideoDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA541A271E5D008FAD29 /* LiveVideoDocument.m */; };
-		667ADA581A271E5D008FAD29 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA561A271E5D008FAD29 /* Document.xib */; };
+		667ADA581A271E5D008FAD29 /* LiveVideoDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA561A271E5D008FAD29 /* LiveVideoDocument.xib */; };
 		667ADA5A1A271E5D008FAD29 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA591A271E5D008FAD29 /* Images.xcassets */; };
-		667ADA5D1A271E5D008FAD29 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA5B1A271E5D008FAD29 /* MainMenu.xib */; };
+		667ADA5D1A271E5D008FAD29 /* LiveVideoMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA5B1A271E5D008FAD29 /* LiveVideoMainMenu.xib */; };
 		667ADA691A271E5D008FAD29 /* LiveVideoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA681A271E5D008FAD29 /* LiveVideoTests.m */; };
 		667ADA771A271F99008FAD29 /* libDwDynamicLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 667ADA761A271F99008FAD29 /* libDwDynamicLib.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
 		667ADA791A27207D008FAD29 /* libDwStaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 667ADA781A27207D008FAD29 /* libDwStaticLib.a */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -36,9 +36,9 @@
 		667ADA511A271E5D008FAD29 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		667ADA531A271E5D008FAD29 /* LiveVideoDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveVideoDocument.h; sourceTree = "<group>"; };
 		667ADA541A271E5D008FAD29 /* LiveVideoDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveVideoDocument.m; sourceTree = "<group>"; };
-		667ADA571A271E5D008FAD29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Document.xib; sourceTree = "<group>"; };
+		667ADA571A271E5D008FAD29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LiveVideoDocument.xib; sourceTree = "<group>"; };
 		667ADA591A271E5D008FAD29 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		667ADA5C1A271E5D008FAD29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		667ADA5C1A271E5D008FAD29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LiveVideoMainMenu.xib; sourceTree = "<group>"; };
 		667ADA621A271E5D008FAD29 /* LiveVideoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LiveVideoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		667ADA671A271E5D008FAD29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		667ADA681A271E5D008FAD29 /* LiveVideoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveVideoTests.m; sourceTree = "<group>"; };
@@ -95,9 +95,9 @@
 				667ADA4F1A271E5D008FAD29 /* LiveVideoAppDelegate.m */,
 				667ADA531A271E5D008FAD29 /* LiveVideoDocument.h */,
 				667ADA541A271E5D008FAD29 /* LiveVideoDocument.m */,
-				667ADA561A271E5D008FAD29 /* Document.xib */,
+				667ADA561A271E5D008FAD29 /* LiveVideoDocument.xib */,
 				667ADA591A271E5D008FAD29 /* Images.xcassets */,
-				667ADA5B1A271E5D008FAD29 /* MainMenu.xib */,
+				667ADA5B1A271E5D008FAD29 /* LiveVideoMainMenu.xib */,
 				667ADA4C1A271E5D008FAD29 /* Supporting Files */,
 			);
 			path = LiveVideo;
@@ -209,9 +209,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				667ADA581A271E5D008FAD29 /* Document.xib in Resources */,
+				667ADA581A271E5D008FAD29 /* LiveVideoDocument.xib in Resources */,
 				667ADA5A1A271E5D008FAD29 /* Images.xcassets in Resources */,
-				667ADA5D1A271E5D008FAD29 /* MainMenu.xib in Resources */,
+				667ADA5D1A271E5D008FAD29 /* LiveVideoMainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,20 +254,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		667ADA561A271E5D008FAD29 /* Document.xib */ = {
+		667ADA561A271E5D008FAD29 /* LiveVideoDocument.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				667ADA571A271E5D008FAD29 /* Base */,
 			);
-			name = Document.xib;
+			name = LiveVideoDocument.xib;
 			sourceTree = "<group>";
 		};
-		667ADA5B1A271E5D008FAD29 /* MainMenu.xib */ = {
+		667ADA5B1A271E5D008FAD29 /* LiveVideoMainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				667ADA5C1A271E5D008FAD29 /* Base */,
 			);
-			name = MainMenu.xib;
+			name = LiveVideoMainMenu.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

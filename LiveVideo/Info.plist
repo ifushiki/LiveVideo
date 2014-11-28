@@ -48,7 +48,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2014 IKKO FUSHIKI. All rights reserved.</string>
 	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
+	<string>LiveVideoMainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>
