@@ -1,5 +1,5 @@
 //
-//  Document.h
+//  LiveVideoDocument.h
 //  LiveVideo
 //
 //  Created by IKKO FUSHIKI on 11/27/14.
@@ -8,7 +8,7 @@
 
 #import "MyImports.h"
 
-@interface Document : DwDocument
+@interface LiveVideoDocument : DwDocument
 
 @end
 

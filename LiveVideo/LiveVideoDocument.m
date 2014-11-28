@@ -1,21 +1,22 @@
 //
-//  Document.m
+//  LiveVideoDocument.m
 //  LiveVideo
 //
 //  Created by IKKO FUSHIKI on 11/27/14.
 //  Copyright (c) 2014 IKKO FUSHIKI. All rights reserved.
 //
 
-#import "Document.h"
+#import "LiveVideoDocument.h"
 
-@interface Document ()
+@interface LiveVideoDocument ()
 {
+    // A handle for dynamic library.
     void* lib_handle;
 }
 
 @end
 
-@implementation Document
+@implementation LiveVideoDocument
 
 - (instancetype)init {
     self = [super init];

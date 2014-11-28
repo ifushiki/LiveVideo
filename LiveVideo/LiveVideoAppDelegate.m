@@ -1,18 +1,18 @@
 //
-//  AppDelegate.m
+//  LiveVideoAppDelegate.m
 //  LiveVideo
 //
 //  Created by IKKO FUSHIKI on 11/27/14.
 //  Copyright (c) 2014 IKKO FUSHIKI. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "LiveVideoAppDelegate.h"
 
-@interface AppDelegate ()
+@interface LiveVideoAppDelegate ()
 
 @end
 
-@implementation AppDelegate
+@implementation LiveVideoAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application

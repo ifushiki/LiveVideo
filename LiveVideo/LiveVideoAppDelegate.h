@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  LiveVideoAppDelegate.h
 //  LiveVideo
 //
 //  Created by IKKO FUSHIKI on 11/27/14.
@@ -8,7 +8,7 @@
 
 #import "MyImports.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface LiveVideoAppDelegate : NSObject <NSApplicationDelegate>
 
 
 @end

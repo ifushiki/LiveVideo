@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		667ADA501A271E5D008FAD29 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA4F1A271E5D008FAD29 /* AppDelegate.m */; };
+		667ADA501A271E5D008FAD29 /* LiveVideoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA4F1A271E5D008FAD29 /* LiveVideoAppDelegate.m */; };
 		667ADA521A271E5D008FAD29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA511A271E5D008FAD29 /* main.m */; };
-		667ADA551A271E5D008FAD29 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA541A271E5D008FAD29 /* Document.m */; };
+		667ADA551A271E5D008FAD29 /* LiveVideoDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA541A271E5D008FAD29 /* LiveVideoDocument.m */; };
 		667ADA581A271E5D008FAD29 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA561A271E5D008FAD29 /* Document.xib */; };
 		667ADA5A1A271E5D008FAD29 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA591A271E5D008FAD29 /* Images.xcassets */; };
 		667ADA5D1A271E5D008FAD29 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA5B1A271E5D008FAD29 /* MainMenu.xib */; };
@@ -31,11 +31,11 @@
 /* Begin PBXFileReference section */
 		667ADA491A271E5D008FAD29 /* LiveVideo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveVideo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		667ADA4D1A271E5D008FAD29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		667ADA4E1A271E5D008FAD29 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		667ADA4F1A271E5D008FAD29 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		667ADA4E1A271E5D008FAD29 /* LiveVideoAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveVideoAppDelegate.h; sourceTree = "<group>"; };
+		667ADA4F1A271E5D008FAD29 /* LiveVideoAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveVideoAppDelegate.m; sourceTree = "<group>"; };
 		667ADA511A271E5D008FAD29 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		667ADA531A271E5D008FAD29 /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
-		667ADA541A271E5D008FAD29 /* Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
+		667ADA531A271E5D008FAD29 /* LiveVideoDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveVideoDocument.h; sourceTree = "<group>"; };
+		667ADA541A271E5D008FAD29 /* LiveVideoDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveVideoDocument.m; sourceTree = "<group>"; };
 		667ADA571A271E5D008FAD29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Document.xib; sourceTree = "<group>"; };
 		667ADA591A271E5D008FAD29 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		667ADA5C1A271E5D008FAD29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -91,10 +91,10 @@
 			isa = PBXGroup;
 			children = (
 				667ADA861A279034008FAD29 /* MyImports.h */,
-				667ADA4E1A271E5D008FAD29 /* AppDelegate.h */,
-				667ADA4F1A271E5D008FAD29 /* AppDelegate.m */,
-				667ADA531A271E5D008FAD29 /* Document.h */,
-				667ADA541A271E5D008FAD29 /* Document.m */,
+				667ADA4E1A271E5D008FAD29 /* LiveVideoAppDelegate.h */,
+				667ADA4F1A271E5D008FAD29 /* LiveVideoAppDelegate.m */,
+				667ADA531A271E5D008FAD29 /* LiveVideoDocument.h */,
+				667ADA541A271E5D008FAD29 /* LiveVideoDocument.m */,
 				667ADA561A271E5D008FAD29 /* Document.xib */,
 				667ADA591A271E5D008FAD29 /* Images.xcassets */,
 				667ADA5B1A271E5D008FAD29 /* MainMenu.xib */,
@@ -229,9 +229,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				667ADA551A271E5D008FAD29 /* Document.m in Sources */,
+				667ADA551A271E5D008FAD29 /* LiveVideoDocument.m in Sources */,
 				667ADA521A271E5D008FAD29 /* main.m in Sources */,
-				667ADA501A271E5D008FAD29 /* AppDelegate.m in Sources */,
+				667ADA501A271E5D008FAD29 /* LiveVideoAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
