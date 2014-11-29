@@ -10,6 +10,5 @@
 
 @interface LiveVideoAppDelegate : NSObject <NSApplicationDelegate>
 
-
 @end
 
