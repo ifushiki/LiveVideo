@@ -44,6 +44,7 @@
 
 @synthesize animationTimer;
 @synthesize animationCount;
+@synthesize displayLink;
 
 CAShapeLayer* createRectLayer(CGRect frame, CGColorRef color);
 CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color);
@@ -150,12 +151,25 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
     [newPreviewLayer addSublayer:starLayer];
     [previewViewLayer addSublayer:newPreviewLayer];
     
-    if (self.videoOutputView2) {
+    if (self.videoOutputView2 != nil) {
         frame = self.videoOutputView2.bounds;
         self.filterView = [[DwVideoOutputView alloc] initWithFrame:frame];
         [self.videoOutputView2 addSubview:self.filterView];
     }
     
+    CVReturn            error = kCVReturnSuccess;
+    CGDirectDisplayID   displayID = CGMainDisplayID();// 1
+    
+    error = CVDisplayLinkCreateWithCGDisplay(displayID, &displayLink);// 2
+    if(error)
+    {
+        NSLog(@"DisplayLink created with error:%d", error);
+        displayLink = NULL;
+        return;
+    }
+    error = CVDisplayLinkSetOutputCallback(displayLink,// 3
+                                           MyDisplayLinkCallback, (__bridge void *)(self.filterView));
+
     [avManager setOutputViews:videoOutputView withSecondView:self.filterView];
     
     // Start the session
@@ -163,6 +177,28 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
 
     // Start the animation timer.
     [self setAnimationTimer:[NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(moveSprites:) userInfo:nil repeats:YES]];
+    
+    // Activate the display link
+    CVDisplayLinkStart(self.displayLink);
+}
+
+// This is the renderer output callback function
+static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
+                                      const CVTimeStamp* now,
+                                      const CVTimeStamp* outputTime,
+                                      CVOptionFlags flagsIn,
+                                      CVOptionFlags* flagsOut,
+                                      void* displayLinkContext)
+{
+    CVReturn    result = kCVReturnSuccess;
+    DwVideoOutputView* view = (__bridge DwVideoOutputView* ) displayLinkContext;
+    
+    // Call a display update only when the new data is already received and ready to draw (when isReadyToReceiveNewData() is false).
+    if ([view isReadyToReceiveNewData]  == NO)
+        [view setNeedsDisplay:YES];
+
+    NSLog(@"MyDisplayLinkCallback is called.");
+    return      result;
 }
 
 + (BOOL)autosavesInPlace {

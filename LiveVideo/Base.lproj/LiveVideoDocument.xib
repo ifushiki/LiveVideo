@@ -8,7 +8,7 @@
             <connections>
                 <outlet property="previewView" destination="nYa-yJ-H9q" id="GzO-6S-lgJ"/>
                 <outlet property="videoOutputView" destination="yao-BM-7Jc" id="6Ma-r7-HNu"/>
-                <outlet property="videoOutputView2" destination="pE6-fS-pYp" id="O8x-Bu-Iyp"/>
+                <outlet property="videoOutputView2" destination="F4A-ud-GKr" id="b4v-fr-tWr"/>
                 <outlet property="window" destination="xOd-HO-29H" id="JIz-fz-R2o"/>
             </connections>
         </customObject>
@@ -29,9 +29,6 @@
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yao-BM-7Jc">
                         <rect key="frame" x="488" y="282" width="360" height="240"/>
-                    </customView>
-                    <customView canDrawConcurrently="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pE6-fS-pYp">
-                        <rect key="frame" x="488" y="27" width="360" height="240"/>
                     </customView>
                     <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autorecalculatesCellSize="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sde-OJ-Dy8">
                         <rect key="frame" x="103" y="64" width="61" height="38"/>
@@ -90,6 +87,9 @@
                             <action selector="togglePlayMode:" target="-2" id="HaU-9p-d0L"/>
                         </connections>
                     </button>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F4A-ud-GKr">
+                        <rect key="frame" x="488" y="34" width="360" height="240"/>
+                    </customView>
                 </subviews>
             </view>
             <connections>
