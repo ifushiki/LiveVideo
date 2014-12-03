@@ -195,7 +195,14 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     
     // Call a display update only when the new data is already received and ready to draw (when isReadyToReceiveNewData() is false).
     if ([view isReadyToReceiveNewData]  == NO)
+    {
         [view setNeedsDisplay:YES];
+        CALayer *layer = [view layer];
+        if (layer) {
+            [view setLayerContents];
+            [layer setNeedsDisplay];
+        }
+    }
 
     NSLog(@"MyDisplayLinkCallback is called.");
     return      result;
