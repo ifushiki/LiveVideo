@@ -204,7 +204,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
         }
     }
 
-    NSLog(@"MyDisplayLinkCallback is called.");
+//    NSLog(@"MyDisplayLinkCallback is called.");
     return      result;
 }
 
