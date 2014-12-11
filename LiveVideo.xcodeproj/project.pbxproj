@@ -79,11 +79,10 @@
 		667ADA401A271E5D008FAD29 = {
 			isa = PBXGroup;
 			children = (
-				667ADA781A27207D008FAD29 /* libDwStaticLib.a */,
-				667ADA761A271F99008FAD29 /* libDwDynamicLib.dylib */,
 				667ADA4B1A271E5D008FAD29 /* LiveVideo */,
 				667ADA651A271E5D008FAD29 /* LiveVideoTests */,
 				667ADA4A1A271E5D008FAD29 /* Products */,
+				66881BA91A3A2C5300568349 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -157,6 +156,15 @@
 				667ADA991A290D5C008FAD29 /* stop-button.png */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		66881BA91A3A2C5300568349 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				667ADA781A27207D008FAD29 /* libDwStaticLib.a */,
+				667ADA761A271F99008FAD29 /* libDwDynamicLib.dylib */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
