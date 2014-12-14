@@ -17,6 +17,7 @@
 {
     // A handle for dynamic library.
     void* lib_handle;
+    BOOL displayLinkStarted;
 }
 
 // Properties for internal use
@@ -100,13 +101,14 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
     self = [super init];
     if (self) {
         // Add your subclass-specific initialization here.
-        [self openDwDynamicLib];
-        [self testLibraries];
+//        [self openDwDynamicLib];
+//        [self testLibraries];
 
         animationCount = 0;
         
         // Set up LiveVideoCaptureManager.
         avManager = [[LiveVideoCaptureManager alloc] init];
+        displayLinkStarted = NO;
     }
     return self;
 }
@@ -179,7 +181,7 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
     [self setAnimationTimer:[NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(moveSprites:) userInfo:nil repeats:YES]];
     
     // Activate the display link
-    CVDisplayLinkStart(self.displayLink);
+//    CVDisplayLinkStart(self.displayLink);
 }
 
 // This is the renderer output callback function
@@ -260,6 +262,12 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     animationCount++;
     if (animationCount > 36) {
         animationCount -= 36;
+    }
+    
+    // Add a delayed start for SVDsiplayLink.
+    if (displayLinkStarted == NO) {
+        CVDisplayLinkStart(self.displayLink);
+        displayLinkStarted = YES;
     }
 }
 

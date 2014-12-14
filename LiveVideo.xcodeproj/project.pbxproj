@@ -14,12 +14,12 @@
 		667ADA5A1A271E5D008FAD29 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA591A271E5D008FAD29 /* Images.xcassets */; };
 		667ADA5D1A271E5D008FAD29 /* LiveVideoMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA5B1A271E5D008FAD29 /* LiveVideoMainMenu.xib */; };
 		667ADA691A271E5D008FAD29 /* LiveVideoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA681A271E5D008FAD29 /* LiveVideoTests.m */; };
-		667ADA771A271F99008FAD29 /* libDwDynamicLib.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 667ADA761A271F99008FAD29 /* libDwDynamicLib.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
 		667ADA791A27207D008FAD29 /* libDwStaticLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 667ADA781A27207D008FAD29 /* libDwStaticLib.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		667ADA891A28059A008FAD29 /* LiveVideoCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA881A28059A008FAD29 /* LiveVideoCaptureManager.m */; };
 		667ADA9A1A290D5C008FAD29 /* pause-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA971A290D5C008FAD29 /* pause-button.png */; };
 		667ADA9B1A290D5C008FAD29 /* play-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA981A290D5C008FAD29 /* play-button.png */; };
 		667ADA9C1A290D5C008FAD29 /* stop-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA991A290D5C008FAD29 /* stop-button.png */; };
+		66881BBB1A3BAF7200568349 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66881BBA1A3BAF7200568349 /* OpenCL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +46,6 @@
 		667ADA621A271E5D008FAD29 /* LiveVideoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LiveVideoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		667ADA671A271E5D008FAD29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		667ADA681A271E5D008FAD29 /* LiveVideoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveVideoTests.m; sourceTree = "<group>"; };
-		667ADA761A271F99008FAD29 /* libDwDynamicLib.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libDwDynamicLib.dylib; path = "../../../../Library/Developer/Xcode/DerivedData/DigitarWorld-ddrnhfzfpqntnzalkqhppurejvyv/Build/Products/Debug/libDwDynamicLib.dylib"; sourceTree = "<group>"; };
 		667ADA781A27207D008FAD29 /* libDwStaticLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libDwStaticLib.a; path = "../../../../Library/Developer/Xcode/DerivedData/DigitarWorld-ddrnhfzfpqntnzalkqhppurejvyv/Build/Products/Debug/libDwStaticLib.a"; sourceTree = "<group>"; };
 		667ADA861A279034008FAD29 /* MyImports.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyImports.h; sourceTree = "<group>"; };
 		667ADA871A28059A008FAD29 /* LiveVideoCaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveVideoCaptureManager.h; sourceTree = "<group>"; };
@@ -54,6 +53,7 @@
 		667ADA971A290D5C008FAD29 /* pause-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pause-button.png"; sourceTree = "<group>"; };
 		667ADA981A290D5C008FAD29 /* play-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "play-button.png"; sourceTree = "<group>"; };
 		667ADA991A290D5C008FAD29 /* stop-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stop-button.png"; sourceTree = "<group>"; };
+		66881BBA1A3BAF7200568349 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				667ADA771A271F99008FAD29 /* libDwDynamicLib.dylib in Frameworks */,
+				66881BBB1A3BAF7200568349 /* OpenCL.framework in Frameworks */,
 				667ADA791A27207D008FAD29 /* libDwStaticLib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -161,8 +161,8 @@
 		66881BA91A3A2C5300568349 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				66881BBA1A3BAF7200568349 /* OpenCL.framework */,
 				667ADA781A27207D008FAD29 /* libDwStaticLib.a */,
-				667ADA761A271F99008FAD29 /* libDwDynamicLib.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -216,6 +216,7 @@
 				TargetAttributes = {
 					667ADA481A271E5D008FAD29 = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = EH93ME4J55;
 					};
 					667ADA611A271E5D008FAD29 = {
 						CreatedOnToolsVersion = 6.1;
@@ -395,6 +396,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = LiveVideo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -405,6 +407,7 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/DigitarWorld-ddrnhfzfpqntnzalkqhppurejvyv/Build/Products/Debug",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -412,6 +415,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = LiveVideo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -422,6 +426,7 @@
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/DigitarWorld-ddrnhfzfpqntnzalkqhppurejvyv/Build/Products/Debug",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
