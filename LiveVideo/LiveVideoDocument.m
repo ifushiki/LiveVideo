@@ -13,6 +13,8 @@
 #import <CoreVideo/CVPixelBuffer.h>
 #import "LiveVideoCaptureManager.h"
 
+#define USE_FILTER_LAYER  NO
+
 @interface LiveVideoDocument ()
 {
     // A handle for dynamic library.
@@ -146,18 +148,13 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
     CGRect frame = CGRectMake(200, 100, 50, 50);
     shapeLayer = createRectLayer(frame, [NSColor redColor].CGColor);
     [newPreviewLayer addSublayer:shapeLayer];
-    [previewViewLayer addSublayer:newPreviewLayer];
+//    [previewViewLayer addSublayer:newPreviewLayer];
     
-    frame.origin = CGPointMake(400, 200);
+    frame.origin = CGPointMake(300, 200);
     starLayer = createStarLayer(frame, [NSColor yellowColor].CGColor);
     [newPreviewLayer addSublayer:starLayer];
+
     [previewViewLayer addSublayer:newPreviewLayer];
-    
-    if (self.videoOutputView2 != nil) {
-        frame = self.videoOutputView2.bounds;
-        self.filterView = [[DwVideoOutputView alloc] initWithFrame:frame];
-        [self.videoOutputView2 addSubview:self.filterView];
-    }
     
     CVReturn            error = kCVReturnSuccess;
     CGDirectDisplayID   displayID = CGMainDisplayID();// 1
@@ -169,6 +166,22 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
         displayLink = NULL;
         return;
     }
+
+    if (self.videoOutputView2 != nil) {
+        frame = self.videoOutputView2.bounds;
+        if(USE_FILTER_LAYER) {
+            self.filterView = nil;
+            self.filterLayer = [[DwVideoOutputLayer alloc] initWithFrame:frame];
+            [self.videoOutputView2 setWantsLayer:YES];
+            [self.videoOutputView2 setLayer:self.filterLayer];
+        }
+        else {
+            self.filterLayer = nil;
+            self.filterView = [[DwVideoOutputView alloc] initWithFrame:frame];
+            [self.videoOutputView2 addSubview:self.filterView];
+        }
+    }
+    
     error = CVDisplayLinkSetOutputCallback(displayLink,// 3
                                            MyDisplayLinkCallback, (__bridge void *)(self.filterView));
 

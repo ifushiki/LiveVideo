@@ -11,15 +11,6 @@
 @class LiveVideoCaptureManager;
 
 @interface LiveVideoDocument : DwDocument
-{
-/*
-@private
-    NSView						*__weak previewView;
-    NSView                      *__weak videoOutputView;
-    DwVideoOutputView             *__weak videoOutputView2;
-    LiveVideoManager                   *avManager;
- */
-}
 
 #pragma mark - Preview
 @property (weak) IBOutlet NSView *previewView;
@@ -27,6 +18,7 @@
 @property (weak) IBOutlet NSView *videoOutputView2;
 @property (strong) LiveVideoCaptureManager *avManager;
 @property (strong) DwVideoOutputView* filterView;
+@property (strong) DwVideoOutputLayer* filterLayer;
 
 @property (strong) IBOutlet NSSegmentedControl *filterChoice;
 @property (strong) IBOutlet NSMatrix  *colorChoice;

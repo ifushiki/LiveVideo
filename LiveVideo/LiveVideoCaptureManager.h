@@ -41,5 +41,6 @@
 - (void)setTransportMode:(AVCaptureDeviceTransportControlsPlaybackMode)playbackMode
                    speed:(AVCaptureDeviceTransportControlsSpeed)speed forDevice:(AVCaptureDevice *)device;
 - (void) setOutputViews:(NSView *) outputView1 withSecondView:(DwVideoOutputView *) outputView2;
+- (void) setOutputViewAndLayer:(NSView *) outputView withLayer:(DwVideoOutputLayer *) outputLayer;
 
 @end

@@ -124,6 +124,11 @@
     }
 }
 
+- (void) setOutputViewAndLayer:(NSView *) outputView withLayer:(DwVideoOutputLayer *) outputLayer
+{
+    
+}
+
 #pragma mark - Device selection
 - (void)refreshDevices
 {
