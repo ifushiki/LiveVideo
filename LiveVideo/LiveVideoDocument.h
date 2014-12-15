@@ -8,8 +8,6 @@
 
 #import "MyImports.h"
 
-#define USE_FILTER_LAYER  NO
-
 @class LiveVideoCaptureManager;
 
 @interface LiveVideoDocument : DwDocument

@@ -157,17 +157,6 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
     starLayer = createStarLayer(frame, [NSColor yellowColor].CGColor);
     [newPreviewLayer addSublayer:starLayer];
     
-    CVReturn            error = kCVReturnSuccess;
-    CGDirectDisplayID   displayID = CGMainDisplayID();// 1
-    
-    error = CVDisplayLinkCreateWithCGDisplay(displayID, &displayLink);// 2
-    if(error)
-    {
-        NSLog(@"DisplayLink created with error:%d", error);
-        displayLink = NULL;
-        return;
-    }
-
     if (self.videoOutputView2 != nil) {
         frame = self.videoOutputView2.bounds;
         if(USE_FILTER_LAYER) {
@@ -183,10 +172,21 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
         }
     }
     
+    CVReturn            error = kCVReturnSuccess;
+    CGDirectDisplayID   displayID = CGMainDisplayID();// 1
+    
+    error = CVDisplayLinkCreateWithCGDisplay(displayID, &displayLink);// 2
+    if(error)
+    {
+        NSLog(@"DisplayLink created with error:%d", error);
+        displayLink = NULL;
+        return;
+    }
+    
     error = CVDisplayLinkSetOutputCallback(displayLink,// 3
                                            MyDisplayLinkCallback, (__bridge void *) self);
 
-    [avManager setOutputViews:videoOutputView withSecondView:self.filterView];
+    [avManager setOutputViews:videoOutputView withSecondView:self.filterView withSecondLayer:self.filterLayer];
     
     // Start the session
     [[avManager session] startRunning];

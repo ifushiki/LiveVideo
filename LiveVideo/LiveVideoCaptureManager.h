@@ -14,6 +14,8 @@
 #import <CoreVideo/CVPixelBuffer.h>
 #import "MyImports.h"
 
+#define USE_FILTER_LAYER  NO
+
 @interface LiveVideoCaptureManager : NSObject <AVCaptureFileOutputDelegate, AVCaptureVideoDataOutputSampleBufferDelegate>
 
 @property (strong)  AVCaptureSession			*session;
@@ -32,6 +34,7 @@
 
 @property (weak) NSView                         *videoOutputView;
 @property (weak) DwVideoOutputView              *videoOutputView2;
+@property (weak) DwVideoOutputLayer             *videoOutputLayer2;
 
 @property (assign) void*                        *dataBuffer;
 @property (assign) long                         dataBufferSize;
@@ -40,7 +43,6 @@
 - (void)refreshDevices;
 - (void)setTransportMode:(AVCaptureDeviceTransportControlsPlaybackMode)playbackMode
                    speed:(AVCaptureDeviceTransportControlsSpeed)speed forDevice:(AVCaptureDevice *)device;
-- (void) setOutputViews:(NSView *) outputView1 withSecondView:(DwVideoOutputView *) outputView2;
-- (void) setOutputViewAndLayer:(NSView *) outputView withLayer:(DwVideoOutputLayer *) outputLayer;
+- (void) setOutputViews:(NSView *) outputView1 withSecondView:(DwVideoOutputView *) outputView2 withSecondLayer:(DwVideoOutputLayer *) outputLayer2;
 
 @end

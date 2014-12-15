@@ -14,7 +14,7 @@
 @synthesize audioDeviceInput, audioPreviewOutput, videoDataOutput;
 @synthesize videoDevices, audioDevices,audioLevelTimer;
 @synthesize observers;
-@synthesize videoOutputView, videoOutputView2;
+@synthesize videoOutputView, videoOutputView2, videoOutputLayer2;
 @synthesize dataBuffer, dataBufferSize;
 
 - (id) init
@@ -71,6 +71,8 @@
         self.dataBufferSize = 640*4*480;
         self.dataBuffer = malloc(dataBufferSize);
         
+        self.videoOutputView2 = nil;
+        self.videoOutputLayer2 = nil;
     }
     return self;
 }
@@ -87,10 +89,11 @@
     
 }
 
-- (void) setOutputViews:(NSView *) outputView1 withSecondView:(DwVideoOutputView *) outputView2
+- (void) setOutputViews:(NSView *) outputView1 withSecondView:(DwVideoOutputView *) outputView2 withSecondLayer:(DwVideoOutputLayer *)outputLayer2
 {
     self.videoOutputView = outputView1;
     self.videoOutputView2 = outputView2;
+    self.videoOutputLayer2 = outputLayer2;
     
     CALayer *videoOutputViewLayer = [[self videoOutputView] layer];
     if (videoOutputViewLayer == nil) {
@@ -106,6 +109,7 @@
         NSLog(@"No CA Layer in videOutputView");
     }
     
+#if 0
     CALayer *videoOutputViewLayer2 = nil;
 /*
     videoOutputViewLayer2 = [[self videoOutputView2] layer];
@@ -122,10 +126,7 @@
     else {
         NSLog(@"No CA Layer in videOutputView");
     }
-}
-
-- (void) setOutputViewAndLayer:(NSView *) outputView withLayer:(DwVideoOutputLayer *) outputLayer
-{
+#endif
     
 }
 
@@ -360,8 +361,16 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         //    [self.customLayer performSelectorOnMainThread:@selector(setContents:) withObject: (id) newImage waitUntilDone:YES];
         [outputViewLayer performSelectorOnMainThread:@selector(setContents:) withObject: (__bridge id) newImage waitUntilDone:YES];
         
-        if ([self.videoOutputView2 isReadyToReceiveNewData] == YES)
-            [(DwVideoOutputView *) self.videoOutputView2 sendImageData:dataBuffer withBytesPerRow:bytesPerRow withWidth:width withHeight:height];
+        if(USE_FILTER_LAYER)
+        {
+            if ([self.videoOutputLayer2 isReadyToReceiveNewData] == YES)
+                [(DwVideoOutputLayer *) self.videoOutputLayer2 sendImageData:dataBuffer withBytesPerRow:bytesPerRow withWidth:width withHeight:height];
+
+        }
+        else  {
+            if ([self.videoOutputView2 isReadyToReceiveNewData] == YES)
+                [(DwVideoOutputView *) self.videoOutputView2 sendImageData:dataBuffer withBytesPerRow:bytesPerRow withWidth:width withHeight:height];
+        }
         
         
         /*We display the result on the image view (We need to change the orientation of the image so that the video is displayed correctly).
