@@ -294,7 +294,10 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
 {
     // Get the filter selection
     int index = (int) [sender selectedSegment];
-    [self.filterView changeFiler:index];
+    if (USE_FILTER_LAYER)
+        [self.filterLayer changeFiler:index];
+    else
+        [self.filterView changeFiler:index];
 }
 
 - (IBAction) getColorMode:(id)sender
@@ -303,16 +306,28 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     NSButtonCell *cell = [sender selectedCell];
     NSString* title = cell.title;
     if ([title isEqualToString:@"Color"]) {
-        [self.filterView changeColorMode:kColor];
+        if (USE_FILTER_LAYER)
+            [self.filterLayer changeColorMode:kColor];
+        else
+            [self.filterView changeColorMode:kColor];
     }
     else if ([title isEqualToString:@"Gray"]) {
-        [self.filterView changeColorMode:kGray];
+        if (USE_FILTER_LAYER)
+            [self.filterLayer changeColorMode:kGray];
+        else
+            [self.filterView changeColorMode:kGray];
     }
 }
 
 - (IBAction) togglePlayMode:(id) sender;
 {
-    if ([self.filterView isPlaying]) {
+    BOOL playing;
+    if (USE_FILTER_LAYER)
+        playing = [self.filterLayer isPlaying];
+    else
+        playing = [self.filterView isPlaying];
+
+    if (playing) {
         // Change the image to play button
         [sender setImage:[NSImage imageNamed:@"play-button.png"]];
         [[avManager session] stopRunning];
@@ -323,7 +338,10 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
         [[avManager session] startRunning];
     }
     
-    [self.filterView togglePlayMode];
+    if (USE_FILTER_LAYER)
+        [self.filterLayer togglePlayMode];
+    else
+        [self.filterView togglePlayMode];
 }
 
 @end

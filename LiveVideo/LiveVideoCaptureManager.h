@@ -14,7 +14,8 @@
 #import <CoreVideo/CVPixelBuffer.h>
 #import "MyImports.h"
 
-#define USE_FILTER_LAYER  NO
+// When using CALayer for drawing filtered image, set USE_FILTER_LAYER to YES
+#define USE_FILTER_LAYER  YES
 
 @interface LiveVideoCaptureManager : NSObject <AVCaptureFileOutputDelegate, AVCaptureVideoDataOutputSampleBufferDelegate>
 
