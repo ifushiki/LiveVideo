@@ -291,6 +291,16 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     newTrans = CATransform3DConcat(trans, newTrans);
     starLayer.transform = newTrans;
     
+    // Add a perspetvive transform to videoOutputView layer.
+    CALayer *layer = [self.videoOutputView layer];
+    shapeTransform = CATransform3DIdentity;
+    float eyePosition = 400;
+    shapeTransform.m34 = -1.0/eyePosition;
+    rotation = CATransform3DRotate(shapeTransform, angle, 0.0, 1.0, 0.2);
+    elevate = CATransform3DMakeTranslation(0, 0, 0);
+    newTrans = CATransform3DConcat(rotation, elevate);
+    layer.transform = newTrans;
+    
     animationCount++;
     if (animationCount > 36) {
         animationCount -= 36;
