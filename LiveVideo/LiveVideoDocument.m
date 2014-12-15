@@ -199,11 +199,13 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     if ([view isReadyToReceiveNewData]  == NO)
     {
         [view setNeedsDisplay:YES];
+/*
         CALayer *layer = [view layer];
         if (layer) {
             [view setLayerContents];
             [layer setNeedsDisplay];
         }
+ */
     }
 
 //    NSLog(@"MyDisplayLinkCallback is called.");
