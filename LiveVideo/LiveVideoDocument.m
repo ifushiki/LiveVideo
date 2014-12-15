@@ -301,6 +301,8 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     newTrans = CATransform3DConcat(rotation, elevate);
     layer.transform = newTrans;
     
+//    self.filterLayer.transform = newTrans;
+    
     animationCount++;
     if (animationCount > 36) {
         animationCount -= 36;
