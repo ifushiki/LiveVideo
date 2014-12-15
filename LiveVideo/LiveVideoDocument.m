@@ -157,6 +157,19 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
     starLayer = createStarLayer(frame, [NSColor yellowColor].CGColor);
     [newPreviewLayer addSublayer:starLayer];
     
+    // Add a CALayer to videoOutputView.
+    CALayer *videoOutputViewLayer = [self.videoOutputView layer];
+    if (videoOutputViewLayer == nil) {
+        videoOutputViewLayer = [CALayer layer];
+        [self.videoOutputView setWantsLayer:YES];   // This is very important to set this flag to be true!!!
+        [self.videoOutputView setLayer:videoOutputViewLayer];
+    }
+    if (videoOutputViewLayer) {
+        [videoOutputViewLayer setBackgroundColor:CGColorGetConstantColor(kCGColorBlack)];
+        videoOutputViewLayer.frame = self.videoOutputView.bounds;
+    }
+    
+    // Add a DwVideoOutputLayer if we use the layer for drawing in videoOutputView2.
     if (self.videoOutputView2 != nil) {
         frame = self.videoOutputView2.bounds;
         if(USE_FILTER_LAYER) {

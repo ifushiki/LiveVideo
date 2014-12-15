@@ -94,40 +94,6 @@
     self.videoOutputView = outputView1;
     self.videoOutputView2 = outputView2;
     self.videoOutputLayer2 = outputLayer2;
-    
-    CALayer *videoOutputViewLayer = [[self videoOutputView] layer];
-    if (videoOutputViewLayer == nil) {
-        videoOutputViewLayer = [CALayer layer];
-        [self.videoOutputView setWantsLayer:YES];   // This is very important to set this flag to be true!!!
-        [self.videoOutputView setLayer:videoOutputViewLayer];
-    }
-    if (videoOutputViewLayer) {
-        [videoOutputViewLayer setBackgroundColor:CGColorGetConstantColor(kCGColorBlack)];
-        videoOutputViewLayer.frame = self.videoOutputView.bounds;
-    }
-    else {
-        NSLog(@"No CA Layer in videOutputView");
-    }
-    
-#if 0
-    CALayer *videoOutputViewLayer2 = nil;
-/*
-    videoOutputViewLayer2 = [[self videoOutputView2] layer];
-    if (videoOutputViewLayer2 == nil) {
-        videoOutputViewLayer2 = [CALayer layer];
-        [self.videoOutputView2 setWantsLayer:YES];   // This is very important to set this flag to be true!!!
-        [self.videoOutputView2 setLayer:videoOutputViewLayer2];
-    }
- */
-    if (videoOutputViewLayer2) {
-        [videoOutputViewLayer2 setBackgroundColor:CGColorGetConstantColor(kCGColorBlack)];
-        videoOutputViewLayer2.frame = self.videoOutputView2.bounds;
-    }
-    else {
-        NSLog(@"No CA Layer in videOutputView");
-    }
-#endif
-    
 }
 
 #pragma mark - Device selection
