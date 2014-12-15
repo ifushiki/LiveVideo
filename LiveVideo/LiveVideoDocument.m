@@ -13,8 +13,6 @@
 #import <CoreVideo/CVPixelBuffer.h>
 #import "LiveVideoCaptureManager.h"
 
-#define USE_FILTER_LAYER  NO
-
 @interface LiveVideoDocument ()
 {
     // A handle for dynamic library.
@@ -131,30 +129,33 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 
-    // Attach preview to session
-    CALayer *previewViewLayer = [[self previewView] layer];
-    if (previewViewLayer == nil) {
-        previewViewLayer = [CALayer layer];
+    // Attach a main layer to the previewView.
+    CALayer *mainLayer = [[self previewView] layer];
+    if (mainLayer == nil) {
+        mainLayer = [CALayer layer];
         [self.previewView setWantsLayer:YES];   // This is very important to set this flag to be true!!!
-        [self.previewView setLayer:previewViewLayer];
+        [self.previewView setLayer:mainLayer];
     }
-
-    [previewViewLayer setBackgroundColor:CGColorGetConstantColor(kCGColorBlack)];
-    AVCaptureVideoPreviewLayer *newPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[avManager session]];
-    [newPreviewLayer setFrame:[previewViewLayer bounds]];
-    [newPreviewLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
-    [self setPreviewLayer:newPreviewLayer];
+    [mainLayer setBackgroundColor:CGColorGetConstantColor(kCGColorBlack)];
     
+    // Create a video preview layer and add it to the main layer.
+    AVCaptureVideoPreviewLayer *newPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[avManager session]];
+    [newPreviewLayer setFrame:[mainLayer bounds]];
+    [newPreviewLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+    [mainLayer addSublayer:newPreviewLayer];
+
+    // Set the previewLayer instance to the above created video preview layer.
+    self.previewLayer = newPreviewLayer;
+    
+    // Add a rectangle layer.
     CGRect frame = CGRectMake(200, 100, 50, 50);
     shapeLayer = createRectLayer(frame, [NSColor redColor].CGColor);
     [newPreviewLayer addSublayer:shapeLayer];
-//    [previewViewLayer addSublayer:newPreviewLayer];
     
+    // Add a star layer.
     frame.origin = CGPointMake(300, 200);
     starLayer = createStarLayer(frame, [NSColor yellowColor].CGColor);
     [newPreviewLayer addSublayer:starLayer];
-
-    [previewViewLayer addSublayer:newPreviewLayer];
     
     CVReturn            error = kCVReturnSuccess;
     CGDirectDisplayID   displayID = CGMainDisplayID();// 1
@@ -183,7 +184,7 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
     }
     
     error = CVDisplayLinkSetOutputCallback(displayLink,// 3
-                                           MyDisplayLinkCallback, (__bridge void *)(self.filterView));
+                                           MyDisplayLinkCallback, (__bridge void *) self);
 
     [avManager setOutputViews:videoOutputView withSecondView:self.filterView];
     
@@ -206,23 +207,26 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
                                       void* displayLinkContext)
 {
     CVReturn    result = kCVReturnSuccess;
-    DwVideoOutputView* view = (__bridge DwVideoOutputView* ) displayLinkContext;
+    LiveVideoDocument* myDocument = (__bridge LiveVideoDocument* ) displayLinkContext;
     
-    // Call a display update only when the new data is already received and ready to draw (when isReadyToReceiveNewData() is false).
-    if ([view isReadyToReceiveNewData]  == NO)
-    {
-        [view setNeedsDisplay:YES];
-/*
-        CALayer *layer = [view layer];
-        if (layer) {
-            [view setLayerContents];
-            [layer setNeedsDisplay];
+    if(USE_FILTER_LAYER) {
+        DwVideoOutputLayer* layer = myDocument.filterLayer;
+        if (layer && [layer isReadyToReceiveNewData] == NO)
+        {
+            // setNeedsDisplay must be called in the main thread.
+            [layer performSelectorOnMainThread:@selector(updateLayer:) withObject:nil waitUntilDone:YES];
         }
- */
     }
-
-//    NSLog(@"MyDisplayLinkCallback is called.");
-    return      result;
+    else {
+        DwVideoOutputView* view = myDocument.filterView;
+        
+        // Call a display update only when the new data is already received and ready to draw (when isReadyToReceiveNewData() is false).
+        if ([view isReadyToReceiveNewData]  == NO)
+        {
+            [view setNeedsDisplay:YES];
+        }
+    }
+    return result;
 }
 
 + (BOOL)autosavesInPlace {
