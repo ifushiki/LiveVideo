@@ -14,26 +14,9 @@
 // This must be 1 if using the GL3 Core Profile on the Mac
 #define USE_VERTEX_BUFFER_OBJECTS 1
 
-// Toggle this to disable the rendering the reflection
-// and setup of the GLSL progam, model and FBO used for
-// the reflection.
-#define RENDER_REFLECTION 1
+DwModel* mdlLoadTestModel();
 
 @implementation TestGLRenderer
-
-#if RENDER_REFLECTION
-DwVertexArray m_reflectVertexArray;
-GLuint m_reflectPrgName;
-GLuint m_reflectTexName;
-
-DwFrameBuffer m_reflectFrameBuffer;
-GLuint m_reflectWidth;
-GLuint m_reflectHeight;
-GLint  m_reflectModelViewUniformIdx;
-GLint  m_reflectProjectionUniformIdx;
-GLint m_reflectNormalMatrixUniformIdx;
-#endif // RENDER_REFLECTION
-
 
 DwVertexArray m_characterVertexArray;
 GLuint m_characterPrgName;
@@ -69,35 +52,6 @@ GLfloat m_characterAngle;
     GLfloat projection[16];
     GLfloat mvp[16];
     
-#if RENDER_REFLECTION
-    
-    // Bind our refletion FBO and render our scene
-    
-    glBindFramebuffer(GL_FRAMEBUFFER, m_reflectFrameBuffer.getFrameBuffer());
-    
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glViewport(0, 0, m_reflectWidth, m_reflectHeight);
-    
-    mtxLoadPerspective(projection, 90, (float)m_reflectWidth / (float)m_reflectHeight,5.0,10000);
-    
-    mtxLoadIdentity(modelView);
-    
-    // Invert Y so that everything is rendered up-side-down
-    // as it should with a reflection
-    
-    mtxScaleApply(modelView, 1, -1, 1);
-    mtxTranslateApply(modelView, 0, 300, -800);
-    mtxRotateXApply(modelView, -90.0f);
-    mtxRotateApply(modelView, m_characterAngle, 0.7, 0.3, 1);
-    
-    mtxMultiply(mvp, projection, modelView);
-    
-    // Cull front faces now that everything is flipped
-    // with our inverted reflection transformation matrix
-    [self renderCharacter:mvp cullFace:GL_FRONT];
-    
-#endif // RENDER_REFLECTION
-    
     // Bind our default FBO to render to the screen
     glBindFramebuffer(GL_FRAMEBUFFER, m_defaultFBOName);
     
@@ -106,11 +60,14 @@ GLfloat m_characterAngle;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // Calculate the projection matrix
-    mtxLoadPerspective(projection, 90, (float)self.m_viewWidth / (float)self.m_viewHeight,5.0,10000);
+//    mtxLoadPerspective(projection, 90, (float)self.m_viewWidth / (float)self.m_viewHeight,5.0,10000);
+//    mtxLoadPerspective(projection, 90, (float)self.m_viewWidth / (float)self.m_viewHeight,5.0,1000);
+    mtxLoadPerspective(projection, 45, (float)self.m_viewWidth / (float)self.m_viewHeight,5.0,1000);
     
     // Calculate the modelview matrix to render our character
     //  at the proper position and rotation
-    mtxLoadTranslate(modelView, 0, 150, -450);
+//    mtxLoadTranslate(modelView, 0, 150, -450);
+    mtxLoadTranslate(modelView, 0, 0, -200);
     mtxRotateXApply(modelView, -90.0f);
     mtxRotateApply(modelView, m_characterAngle, 0.7, 0.3, 1);
     
@@ -120,54 +77,6 @@ GLfloat m_characterAngle;
     // Cull back faces now that we no longer render
     // with an inverted matrix
     [self renderCharacter:mvp cullFace:GL_BACK];
-    
-#if RENDER_REFLECTION
-    
-    // Use our shader for reflections
-    glUseProgram(m_reflectPrgName);
-    
-    mtxLoadTranslate(modelView, 0, -50, -250);
-    
-    // Multiply the modelview and projection matrix and set it in the shader
-    mtxMultiply(mvp, projection, modelView);
-    
-    // Set the modelview matrix that we calculated above
-    // in our vertex shader
-    glUniformMatrix4fv(m_reflectModelViewUniformIdx, 1, GL_FALSE, modelView);
-    
-    // Set the projection matrix that we calculated above
-    // in our vertex shader
-    glUniformMatrix4fv(m_reflectProjectionUniformIdx, 1, GL_FALSE, mvp);
-    
-    float normalMatrix[9];
-    
-    // Calculate the normal matrix so that we can
-    // generate texture coordinates in our fragment shader
-    
-    // The normal matrix needs to be the inverse transpose of the
-    //   top left 3x3 portion of the modelview matrix
-    // We don't need to calculate the inverse transpose matrix
-    //   here because this will always be an orthonormal matrix
-    //   thus the the inverse tranpose is the same thing
-    mtx3x3FromTopLeftOf4x4(normalMatrix, modelView);
-    
-    // Set the normal matrix for our shader to use
-    glUniformMatrix3fv(m_reflectNormalMatrixUniformIdx, 1, GL_FALSE, normalMatrix);
-    
-    // Bind the texture we rendered-to above (i.e. the reflection texture)
-    glBindTexture(GL_TEXTURE_2D, m_reflectTexName);
-    
-#if !ESSENTIAL_GL_PRACTICES_IOS
-    // Generate mipmaps from the rendered-to base level
-    //   Mipmaps reduce shimmering pixels due to better filtering
-    // This call is not accelarated on iOS 4 so do not use
-    //   mipmaps here
-    glGenerateMipmap(GL_TEXTURE_2D);
-#endif
-    
-    DwDrawVertexArray(&m_reflectVertexArray);
-    
-#endif // RENDER_REFLECTION
     
     // Update the angle so our character keeps spinning
     m_characterAngle++;
@@ -187,29 +96,6 @@ GLfloat m_characterAngle;
 // Find the Uniform indices from relfect shaders.
 - (void) findReflectUniformIndices
 {
-#if RENDER_REFLECTION
-
-    m_reflectModelViewUniformIdx = glGetUniformLocation(m_reflectPrgName, "modelViewMatrix");
-    
-    if(m_reflectModelViewUniformIdx < 0)
-    {
-        NSLog(@"No modelViewMatrix in reflection shader");
-    }
-    
-    m_reflectProjectionUniformIdx = glGetUniformLocation(m_reflectPrgName, "modelViewProjectionMatrix");
-    
-    if(m_reflectProjectionUniformIdx < 0)
-    {
-        NSLog(@"No modelViewProjectionMatrix in reflection shader");
-    }
-    
-    m_reflectNormalMatrixUniformIdx = glGetUniformLocation(m_reflectPrgName, "normalMatrix");
-    
-    if(m_reflectNormalMatrixUniformIdx < 0)
-    {
-        NSLog(@"No normalMatrix in reflection shader");
-    }
-#endif
 }
 
 - (id) initWithDefaultFBO: (GLuint) defaultFBOName
@@ -237,8 +123,9 @@ GLfloat m_characterAngle;
         // Load our character model //
         //////////////////////////////
         
-        filePathName = [[NSBundle mainBundle] pathForResource:@"demon" ofType:@"model"];
-        DwModel *characterModel = mdlLoadModel([filePathName cStringUsingEncoding:NSASCIIStringEncoding]);
+//        filePathName = [[NSBundle mainBundle] pathForResource:@"demon" ofType:@"model"];
+//        DwModel *characterModel = mdlLoadModel([filePathName cStringUsingEncoding:NSASCIIStringEncoding]);
+        DwModel *characterModel = mdlLoadTestModel();
         
         GLboolean usesVAOs = USE_VERTEX_BUFFER_OBJECTS;
         
@@ -276,54 +163,6 @@ GLfloat m_characterAngle;
         
         [self findCharacterUniformIndices];
         
-#if RENDER_REFLECTION
-        
-        m_reflectWidth = 512;
-        m_reflectHeight = 512;
-        
-        ////////////////////////////////////////////////
-        // Load a model for a quad for the reflection //
-        ////////////////////////////////////////////////
-        
-        DwModel *quadModel = mdlLoadQuadModel();
-        
-        m_reflectVertexArray.create(quadModel, usesVAOs);
-        
-        /////////////////////////////////////////////////////
-        // Create texture and FBO for reflection rendering //
-        /////////////////////////////////////////////////////
-        
-        m_reflectFrameBuffer.create(m_reflectWidth, m_reflectHeight);
-        
-        // Get the texture we created in buildReflectFBO by binding the
-        // reflection FBO and getting the buffer attached to color 0
-        glBindFramebuffer(GL_FRAMEBUFFER, m_reflectFrameBuffer.getFrameBuffer());
-        
-        GLint iReflectTexName;
-        
-        glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-                                              GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME,
-                                              &iReflectTexName);
-        
-        m_reflectTexName = ((GLuint*)(&iReflectTexName))[0];
-        
-        /////////////////////////////////////////////////////
-        // Load and setup shaders for reflection rendering //
-        /////////////////////////////////////////////////////
-        
-        filePathName = [[NSBundle mainBundle] pathForResource:@"reflect" ofType:@"vsh"];
-        vtxSource.loadFromFile([filePathName cStringUsingEncoding:NSASCIIStringEncoding]);
-        
-        filePathName = [[NSBundle mainBundle] pathForResource:@"reflect" ofType:@"fsh"];
-        frgSource.loadFromFile([filePathName cStringUsingEncoding:NSASCIIStringEncoding]);
-        
-        // Build Program
-        m_reflectPrgName = DwBuildGLProgram(&vtxSource, &frgSource, YES, NO);
-        
-        [self findReflectUniformIndices];
-        
-#endif // RENDER_REFLECTION
-        
         ////////////////////////////////////////////////
         // Set up OpenGL state that will never change //
         ////////////////////////////////////////////////
@@ -360,13 +199,96 @@ GLfloat m_characterAngle;
     glDeleteTextures(1, &m_characterTexName);
     glDeleteProgram(m_characterPrgName);
     
-#if RENDER_REFLECTION
-    glDeleteProgram(m_reflectPrgName);
-    
-#endif // RENDER_REFLECTION
-    
     //  ARC forbids calling [super dealloc].  It is implemented automatically in ARC.
     //	[super dealloc];
+}
+
+DwModel* mdlLoadTestModel()
+{
+    GLfloat posArray[] = {
+        50.0f, 50.0f, -50.0f,          // 0
+        -50.0f, 50.0f, -50.0f,         // 1
+        -50.0f, -50.0f,  -50.0f,       // 2
+        50.0f, -50.0f,  -50.0f,        // 3
+        50.0f, 50.0f, 50.0f,           // 4
+        -50.0f, 50.0f, 50.0f,          // 5
+        -50.0f, -50.0f,  50.0f,        // 6
+        50.0f, -50.0f,  50.0f          // 7
+    };
+    
+    GLfloat texcoordArray[] = {
+        0.00f,  0.0f,
+        0.25f,  0.0f,
+        0.50f,  0.0f,
+        0.75f,  0.0f,
+        0.00f,  1.0f,
+        0.25f,  1.0f,
+        0.50f,  1.0f,
+        0.75f,  1.0f
+    };
+    
+    GLfloat normalArray[] = {
+        0.7071f, 0.7071f, 0.0f,
+        -0.7071f, 0.7071f, 0.0f,
+        -0.7071f, -0.7071f, 0.0f,
+        0.7071f, -0.7071f, 0.0f,
+        0.7071f, 0.7071f, 0.0f,
+        -0.7071f, 0.7071f, 0.0f,
+        -0.7071f, -0.7071f, 0.0f,
+        0.7071f, -0.7071f, 0.0f
+    };
+    
+    GLushort elementArray[] =
+    {
+        0, 1, 4, 4, 1, 5,
+        1, 2, 5, 5, 2, 6,
+        2, 3, 6, 6, 3, 7,
+        3, 0, 7, 7, 0, 4,
+        0, 2, 1, 0, 3, 2,   // Bottom
+        4, 5, 6, 4, 6, 7    // Top
+    };
+    
+    DwModel* model = (DwModel*) calloc(sizeof(DwModel), 1);
+    
+    if(NULL == model)
+    {
+        return NULL;
+    }
+    
+    model->positionType = GL_FLOAT;
+    model->positionSize = 3;
+    model->positionArraySize = sizeof(posArray);
+    model->positions = (GLubyte*)malloc(model->positionArraySize);
+    memcpy(model->positions, posArray, model->positionArraySize);
+    model->dataInfo |= DW_MODEL_DATA_INFO_POSITIONS; // positions data is independent.
+    
+    
+    model->texcoordType = GL_FLOAT;
+    model->texcoordSize = 2;
+    model->texcoordArraySize = sizeof(texcoordArray);
+    model->texcoords = (GLubyte*)malloc(model->texcoordArraySize);
+    memcpy(model->texcoords, texcoordArray, model->texcoordArraySize );
+    model->dataInfo |= DW_MODEL_DATA_INFO_TEXCOORDS; // texcoords data is independent.
+    
+    model->normalType = GL_FLOAT;
+    model->normalSize = 3;
+    model->normalArraySize = sizeof(normalArray);
+    model->normals = (GLubyte*)malloc(model->normalArraySize);
+    memcpy(model->normals, normalArray, model->normalArraySize);
+    model->dataInfo |= DW_MODEL_DATA_INFO_NORMALS; // normals data is independent.
+    
+    model->elementArraySize = sizeof(elementArray);
+    model->elements	= (GLubyte*)malloc(model->elementArraySize);
+    memcpy(model->elements, elementArray, model->elementArraySize);
+    model->dataInfo |= DW_MODEL_DATA_INFO_ELEMENTS; // elements data is independent.
+    
+    model->primType = GL_TRIANGLES;
+    
+    model->numElements = sizeof(elementArray) / sizeof(GLushort);
+    model->elementType = GL_UNSIGNED_SHORT;
+    model->numVertcies = model->positionArraySize / (model->positionSize * sizeof(GLfloat));
+    
+    return model;
 }
 
 @end
