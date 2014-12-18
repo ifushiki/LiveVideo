@@ -69,7 +69,8 @@ GLfloat m_characterAngle;
 //    mtxLoadTranslate(modelView, 0, 150, -450);
     mtxLoadTranslate(modelView, 0, 0, -200);
     mtxRotateXApply(modelView, -90.0f);
-    mtxRotateApply(modelView, m_characterAngle, 0.7, 0.3, 1);
+//    mtxRotateApply(modelView, m_characterAngle, 0.7, 0.3, 1);
+    mtxRotateApply(modelView, m_characterAngle, 0.2, 0.3, 1);
     
     // Multiply the modelview and projection matrix and set it in the shader
     mtxMultiply(mvp, projection, modelView);
@@ -125,8 +126,11 @@ GLfloat m_characterAngle;
         
 //        filePathName = [[NSBundle mainBundle] pathForResource:@"demon" ofType:@"model"];
 //        DwModel *characterModel = mdlLoadModel([filePathName cStringUsingEncoding:NSASCIIStringEncoding]);
-        DwModel *characterModel = mdlLoadTestModel();
-        
+//        DwModel *characterModel = mdlLoadTestModel();
+        float radius = 50;
+        float height = 80;
+        int n = 6;
+        DwModel *characterModel = createCylinderModel(radius, height, n);
         GLboolean usesVAOs = USE_VERTEX_BUFFER_OBJECTS;
         
         m_characterVertexArray.create(characterModel, usesVAOs);
@@ -201,6 +205,145 @@ GLfloat m_characterAngle;
     
     //  ARC forbids calling [super dealloc].  It is implemented automatically in ARC.
     //	[super dealloc];
+}
+
+DwModel* createCylinderModel(float radius, float height, int n)
+{
+    DwModel* model = (DwModel*) calloc(sizeof(DwModel), 1);
+    
+    if(model == NULL || radius <= 0.0f || height <= 0.0f || n <= 0)
+    {
+        return NULL;
+    }
+    
+    GLfloat *posArray = NULL;
+    GLfloat *normalArray = NULL;
+    GLfloat *textcoordArray = NULL;
+    GLushort *elementArray = NULL;
+    
+    GLfloat posArraySize = sizeof(GLfloat)*n*6;
+    GLfloat normArraySize = posArraySize;
+    GLfloat texArraySize = sizeof(GLfloat)*n*4;
+    GLushort elemArraySize = sizeof(GLushort)*n*6;
+    
+    posArray = (GLfloat *) malloc(posArraySize);
+    normalArray = (GLfloat *) malloc(normArraySize);
+    textcoordArray = (GLfloat *) malloc(texArraySize);
+    elementArray = (GLushort *) malloc(elemArraySize);
+    
+    if (!posArray || !normalArray || !textcoordArray || !elementArray) {
+        free(posArray);
+        free(normalArray);
+        free(textcoordArray);
+        free(elementArray);
+        free(model);
+        
+        return NULL;
+    }
+    
+    // When it comes to here, all the memory was allocated successfully.
+    float theta = 0;
+    float dTheta = 2*M_PI/n;
+    float dZ = height/2;
+    GLfloat *pPos = posArray;
+    GLfloat *pNorm = normalArray;
+    GLfloat *pTex = textcoordArray;
+    GLfloat xTex = 0.0f;
+    GLfloat dXTex = 1.0/n;
+
+    for (int i = 0; i < n; i++) {
+        GLfloat c = cos(theta);
+        GLfloat s = sin(theta);
+        GLfloat x = radius*c;
+        GLfloat y = radius*s;
+        
+        // Corresponding location at the top and bottom rings.
+        *pPos = x;
+        pPos++;
+        *pPos = y;
+        pPos++;
+        *pPos = - dZ;
+        pPos++;
+        *pPos = x;
+        pPos++;
+        *pPos = y;
+        pPos++;
+        *pPos = dZ;
+        pPos++;
+
+        // Corresponding normal at the top and bottom rings.
+        *pNorm = c;
+        pNorm++;
+        *pNorm = s;
+        pNorm++;
+        *pNorm = 0.0f;
+        pNorm++;
+        *pNorm = c;
+        pNorm++;
+        *pNorm = s;
+        pNorm++;
+        *pNorm = 0.0f;
+        pNorm++;
+        
+        // Corresponding texture coordinates at the top and bottom rings.
+        *pTex = xTex;
+        *pTex++ = 0.0f;
+        *pTex++ = xTex;
+        *pTex++ = 1.0f;
+        pTex++;
+        
+        theta += dTheta;
+        xTex += dXTex;
+    }
+    
+    int k = 0;
+    int i0 = 0;
+    for (int i = 0; i < n - 1; i++) {
+        elementArray[k++] = i0;
+        elementArray[k++] = i0 + 3;
+        elementArray[k++] = i0 + 1;
+        elementArray[k++] = i0;
+        elementArray[k++] = i0 + 2;
+        elementArray[k++] = i0 + 3;
+        i0 += 2;
+    }
+
+    // The last 2  elements connect with the first 2 elements.
+    elementArray[k++] = i0;
+    elementArray[k++] = 1;
+    elementArray[k++] = i0 + 1;
+    elementArray[k++] = i0;
+    elementArray[k++] = 0;
+    elementArray[k++] = 1;
+
+    model->positions = (GLubyte *) posArray;
+    model->positionArraySize = posArraySize;
+    model->positionType = GL_FLOAT;
+    model->positionSize = 3;
+    model->dataInfo |= DW_MODEL_DATA_INFO_POSITIONS; // positions data is independent.
+    
+    model->normals = (GLubyte *) normalArray;
+    model->normalArraySize = normArraySize;
+    model->normalType = GL_FLOAT;
+    model->normalSize = 3;
+    model->dataInfo |= DW_MODEL_DATA_INFO_NORMALS; // normals data is independent.
+    
+    model->texcoords = (GLubyte *) textcoordArray;
+    model->texcoordArraySize = texArraySize;
+    model->texcoordType = GL_FLOAT;
+    model->texcoordSize = 2;
+    model->dataInfo |= DW_MODEL_DATA_INFO_TEXCOORDS; // texcoords data is independent.
+    
+    model->elements	= (GLubyte*) elementArray;
+    model->elementArraySize = elemArraySize;
+    model->primType = GL_TRIANGLES;
+    model->dataInfo |= DW_MODEL_DATA_INFO_ELEMENTS; // elements data is independent.
+    
+    model->numElements = n*6;
+    model->elementType = GL_UNSIGNED_SHORT;
+    model->numVertcies = model->positionArraySize / (model->positionSize * sizeof(GLfloat));
+
+    return model;
 }
 
 DwModel* mdlLoadTestModel()
