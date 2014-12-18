@@ -14,6 +14,8 @@
 #import "LiveVideoCaptureManager.h"
 #import "../../DWCommon/DwStaticLib/DwStaticLib/DwStaticLib.h"
 #import "../../DWCommon/DwStaticLib/DwStaticLib/DwStaticLib_cpp.h"
+#import "VideoGLView.h"
+#import "VideoGLRenderer.h"
 
 @interface LiveVideoDocument ()
 {
@@ -193,7 +195,8 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
         NSRect bounds = self.glViewHolder.bounds;
         // Use the arent's view's bounds so that the frame origin is 0.
 //        self.myGLView = [[SimpleGLView alloc] init];
-        self.myGLView = [[DwOpenGLView alloc] init];
+//        self.myGLView = [[DwOpenGLView alloc] init];
+        self.myGLView = [[VideoGLView alloc] init];
         self.myGLView.frame = bounds;   // The frame origin is 0.
         [self.myGLView initPixelFormatAndContext];
         
