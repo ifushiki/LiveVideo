@@ -18,6 +18,10 @@
 		664310D31A42C62100BF3F0D /* VideoGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664310D21A42C62100BF3F0D /* VideoGLView.mm */; };
 		664310D61A42C71900BF3F0D /* VideoGLRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664310D51A42C71900BF3F0D /* VideoGLRenderer.mm */; };
 		664310D91A42E40200BF3F0D /* TestGLRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664310D81A42E40200BF3F0D /* TestGLRenderer.mm */; };
+		664310E01A431DC000BF3F0D /* face1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 664310DC1A431DC000BF3F0D /* face1.jpg */; };
+		664310E11A431DC000BF3F0D /* face2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 664310DD1A431DC000BF3F0D /* face2.jpg */; };
+		664310E21A431DC000BF3F0D /* face3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 664310DE1A431DC000BF3F0D /* face3.jpg */; };
+		664310E31A431DC000BF3F0D /* MapEarth.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 664310DF1A431DC000BF3F0D /* MapEarth.jpg */; };
 		667ADA501A271E5D008FAD29 /* LiveVideoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA4F1A271E5D008FAD29 /* LiveVideoAppDelegate.m */; };
 		667ADA521A271E5D008FAD29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA511A271E5D008FAD29 /* main.m */; };
 		667ADA551A271E5D008FAD29 /* LiveVideoDocument.mm in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA541A271E5D008FAD29 /* LiveVideoDocument.mm */; };
@@ -58,6 +62,10 @@
 		664310D51A42C71900BF3F0D /* VideoGLRenderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VideoGLRenderer.mm; sourceTree = "<group>"; };
 		664310D71A42E40200BF3F0D /* TestGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestGLRenderer.h; sourceTree = "<group>"; };
 		664310D81A42E40200BF3F0D /* TestGLRenderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TestGLRenderer.mm; sourceTree = "<group>"; };
+		664310DC1A431DC000BF3F0D /* face1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = face1.jpg; sourceTree = "<group>"; };
+		664310DD1A431DC000BF3F0D /* face2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = face2.jpg; sourceTree = "<group>"; };
+		664310DE1A431DC000BF3F0D /* face3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = face3.jpg; sourceTree = "<group>"; };
+		664310DF1A431DC000BF3F0D /* MapEarth.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = MapEarth.jpg; sourceTree = "<group>"; };
 		667ADA491A271E5D008FAD29 /* LiveVideo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveVideo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		667ADA4D1A271E5D008FAD29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		667ADA4E1A271E5D008FAD29 /* LiveVideoAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveVideoAppDelegate.h; sourceTree = "<group>"; };
@@ -117,6 +125,10 @@
 		664310CC1A42A77400BF3F0D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				664310DC1A431DC000BF3F0D /* face1.jpg */,
+				664310DD1A431DC000BF3F0D /* face2.jpg */,
+				664310DE1A431DC000BF3F0D /* face3.jpg */,
+				664310DF1A431DC000BF3F0D /* MapEarth.jpg */,
 				664310CD1A42A77400BF3F0D /* demon.model */,
 				664310CE1A42A77400BF3F0D /* demon.png */,
 			);
@@ -306,13 +318,17 @@
 				667ADA9B1A290D5C008FAD29 /* play-button.png in Resources */,
 				664310C81A429C8C00BF3F0D /* reflect.fsh in Resources */,
 				664310C71A429C8C00BF3F0D /* character.vsh in Resources */,
+				664310E01A431DC000BF3F0D /* face1.jpg in Resources */,
 				667ADA581A271E5D008FAD29 /* LiveVideoDocument.xib in Resources */,
 				667ADA5A1A271E5D008FAD29 /* Images.xcassets in Resources */,
 				667ADA9A1A290D5C008FAD29 /* pause-button.png in Resources */,
 				664310C61A429C8C00BF3F0D /* character.fsh in Resources */,
 				664310CB1A429C8C00BF3F0D /* simple.vsh in Resources */,
+				664310E11A431DC000BF3F0D /* face2.jpg in Resources */,
 				667ADA5D1A271E5D008FAD29 /* LiveVideoMainMenu.xib in Resources */,
 				664310D01A42A77400BF3F0D /* demon.png in Resources */,
+				664310E21A431DC000BF3F0D /* face3.jpg in Resources */,
+				664310E31A431DC000BF3F0D /* MapEarth.jpg in Resources */,
 				667ADA9C1A290D5C008FAD29 /* stop-button.png in Resources */,
 				664310C91A429C8C00BF3F0D /* reflect.vsh in Resources */,
 				664310CF1A42A77400BF3F0D /* demon.model in Resources */,

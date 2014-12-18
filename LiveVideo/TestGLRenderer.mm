@@ -68,7 +68,7 @@ GLfloat m_characterAngle;
     //  at the proper position and rotation
 //    mtxLoadTranslate(modelView, 0, 150, -450);
     mtxLoadTranslate(modelView, 0, 0, -200);
-    mtxRotateXApply(modelView, -90.0f);
+    mtxRotateXApply(modelView, 90.0f);
 //    mtxRotateApply(modelView, m_characterAngle, 0.7, 0.3, 1);
     mtxRotateApply(modelView, m_characterAngle, 0.2, 0.3, 1);
     
@@ -128,7 +128,7 @@ GLfloat m_characterAngle;
 //        DwModel *characterModel = mdlLoadModel([filePathName cStringUsingEncoding:NSASCIIStringEncoding]);
 //        DwModel *characterModel = mdlLoadTestModel();
         float radius = 50;
-        float height = 80;
+        float height = 100;
         int n = 12;
         DwModel *characterModel = createCylinderModel(radius, height, n);
         GLboolean usesVAOs = USE_VERTEX_BUFFER_OBJECTS;
@@ -139,7 +139,9 @@ GLfloat m_characterAngle;
         // Load texture for our character //
         ////////////////////////////////////
         
-        filePathName = [[NSBundle mainBundle] pathForResource:@"demon" ofType:@"png"];
+//        filePathName = [[NSBundle mainBundle] pathForResource:@"demon" ofType:@"png"];
+//        filePathName = [[NSBundle mainBundle] pathForResource:@"MapEarth" ofType:@"jpg"];
+        filePathName = [[NSBundle mainBundle] pathForResource:@"face2" ofType:@"jpg"];
         DwImage *image = imgLoadImage([filePathName cStringUsingEncoding:NSASCIIStringEncoding], false);
         
         // Build a texture object with our image data
@@ -221,9 +223,9 @@ DwModel* createCylinderModel(float radius, float height, int n)
     GLfloat *textcoordArray = NULL;
     GLushort *elementArray = NULL;
     
-    GLfloat posArraySize = sizeof(GLfloat)*(n*6 + 2*3);
+    GLfloat posArraySize = sizeof(GLfloat)*((n+1)*6 + 2*3);
     GLfloat normArraySize = posArraySize;
-    GLfloat texArraySize = sizeof(GLfloat)*(n*4 + 2*2);
+    GLfloat texArraySize = sizeof(GLfloat)*((n+1)*4 + 2*2);
     GLushort elemArraySize = sizeof(GLushort)*(n*6 + n*6);
     
     posArray = (GLfloat *) malloc(posArraySize);
@@ -251,7 +253,10 @@ DwModel* createCylinderModel(float radius, float height, int n)
     GLfloat xTex = 0.0f;
     GLfloat dXTex = 1.0/n;
 
-    for (int i = 0; i < n; i++) {
+    // In order to prevent the glitch, i must go from 0 to n.
+    for (int i = 0; i <= n; i++) {
+        if (i == n)
+            theta = 0.0f;   // Prevent the glitch.
         GLfloat c = cos(theta);
         GLfloat s = sin(theta);
         GLfloat x = radius*c;
@@ -286,10 +291,16 @@ DwModel* createCylinderModel(float radius, float height, int n)
         pNorm++;
         
         // Corresponding texture coordinates at the top and bottom rings.
+        if (i == n)
+            xTex = 1.0f;
+        
         *pTex = xTex;
-        *pTex++ = 0.0f;
-        *pTex++ = xTex;
-        *pTex++ = 1.0f;
+        pTex++;
+        *pTex = 0.0f;
+        pTex++;
+        *pTex = xTex;
+        pTex++;
+        *pTex = 1.0f;
         pTex++;
         
         theta += dTheta;
@@ -323,20 +334,23 @@ DwModel* createCylinderModel(float radius, float height, int n)
     pNorm++;
 
     *pTex = 0.5;
-    *pTex++ = 0.0f;
-    *pTex++ = 0.5;
-    *pTex++ = 1.0f;
+    pTex++;
+    *pTex = 0.0f;
+    pTex++;
+    *pTex = 0.5;
+    pTex++;
+    *pTex = 1.0f;
     pTex++;    
     
     int k = 0;
     int i0 = 0;
     for (int i = 0; i < n; i++) {
         elementArray[k++] = i0;
-        elementArray[k++] = i0 + 3 < 2*n ? i0 + 3: 1;
+        elementArray[k++] = i0 + 3;
         elementArray[k++] = i0 + 1;
         elementArray[k++] = i0;
-        elementArray[k++] = i0 + 2 < 2*n ? i0 + 2: 0;
-        elementArray[k++] = i0 + 3 < 2*n ? i0 + 3: 1;
+        elementArray[k++] = i0 + 2;
+        elementArray[k++] = i0 + 3;
         i0 += 2;
     }
 
@@ -347,11 +361,11 @@ DwModel* createCylinderModel(float radius, float height, int n)
     i0 = 0;
     for (int i = 0; i < n; i++) {
         elementArray[k++] = iBottom;
-        elementArray[k++] = i0 + 2 < 2*n ? i0 + 2: 0;
+        elementArray[k++] = i0 + 2;
         elementArray[k++] = i0;
         elementArray[k++] = iTop;
         elementArray[k++] = i0 + 1;
-        elementArray[k++] = i0 + 3 < 2*n ? i0 + 3: 1;
+        elementArray[k++] = i0 + 3;
         i0 += 2;
     }
     
