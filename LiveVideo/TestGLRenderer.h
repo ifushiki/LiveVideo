@@ -1,5 +1,5 @@
 //
-//  VideoGLRenderer.h
+//  TestGLRenderer.h
 //  LiveVideo
 //
 //  Created by IKKO FUSHIKI on 12/18/14.
@@ -8,6 +8,12 @@
 
 #import "../../DWCommon/DwStaticLib/DwStaticLib/AudioVisual/OpenGL/DwGLBaseRenderer.h"
 
-@interface VideoGLRenderer : DwGLBaseRenderer
+@interface TestGLRenderer : DwGLBaseRenderer
+{
+    GLuint m_defaultFBOName;
+
+}
+
+- (id) initWithDefaultFBO: (GLuint) defaultFBOName;
 
 @end

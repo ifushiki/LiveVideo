@@ -10,12 +10,15 @@
 #import "MyImports.h"
 #import "../../DWCommon/DwStaticLib/DwStaticLib/DwStaticLib_cpp.h"
 #import "VideoGLRenderer.h"
+#import "TestGLRenderer.h"
 
 @implementation VideoGLView
 
 - (DwGLBaseRenderer *) createRenderer
 {
-    return [[VideoGLRenderer alloc] init];
+//    return [[VideoGLRenderer alloc] init];
+
+    return [[TestGLRenderer alloc] initWithDefaultFBO:0];
 }
 
 @end
