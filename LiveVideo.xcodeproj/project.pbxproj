@@ -16,8 +16,7 @@
 		664310CF1A42A77400BF3F0D /* demon.model in Resources */ = {isa = PBXBuildFile; fileRef = 664310CD1A42A77400BF3F0D /* demon.model */; };
 		664310D01A42A77400BF3F0D /* demon.png in Resources */ = {isa = PBXBuildFile; fileRef = 664310CE1A42A77400BF3F0D /* demon.png */; };
 		664310D31A42C62100BF3F0D /* VideoGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664310D21A42C62100BF3F0D /* VideoGLView.mm */; };
-		664310D61A42C71900BF3F0D /* VideoGLRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664310D51A42C71900BF3F0D /* VideoGLRenderer.mm */; };
-		664310D91A42E40200BF3F0D /* TestGLRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664310D81A42E40200BF3F0D /* TestGLRenderer.mm */; };
+		664310D91A42E40200BF3F0D /* VideoGLRenderer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664310D81A42E40200BF3F0D /* VideoGLRenderer.mm */; };
 		664310E01A431DC000BF3F0D /* face1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 664310DC1A431DC000BF3F0D /* face1.jpg */; };
 		664310E11A431DC000BF3F0D /* face2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 664310DD1A431DC000BF3F0D /* face2.jpg */; };
 		664310E21A431DC000BF3F0D /* face3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 664310DE1A431DC000BF3F0D /* face3.jpg */; };
@@ -58,10 +57,8 @@
 		664310CE1A42A77400BF3F0D /* demon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = demon.png; sourceTree = "<group>"; };
 		664310D11A42C62100BF3F0D /* VideoGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoGLView.h; sourceTree = "<group>"; };
 		664310D21A42C62100BF3F0D /* VideoGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VideoGLView.mm; sourceTree = "<group>"; };
-		664310D41A42C71900BF3F0D /* VideoGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoGLRenderer.h; sourceTree = "<group>"; };
-		664310D51A42C71900BF3F0D /* VideoGLRenderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VideoGLRenderer.mm; sourceTree = "<group>"; };
-		664310D71A42E40200BF3F0D /* TestGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestGLRenderer.h; sourceTree = "<group>"; };
-		664310D81A42E40200BF3F0D /* TestGLRenderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TestGLRenderer.mm; sourceTree = "<group>"; };
+		664310D71A42E40200BF3F0D /* VideoGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoGLRenderer.h; sourceTree = "<group>"; };
+		664310D81A42E40200BF3F0D /* VideoGLRenderer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VideoGLRenderer.mm; sourceTree = "<group>"; };
 		664310DC1A431DC000BF3F0D /* face1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = face1.jpg; sourceTree = "<group>"; };
 		664310DD1A431DC000BF3F0D /* face2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = face2.jpg; sourceTree = "<group>"; };
 		664310DE1A431DC000BF3F0D /* face3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = face3.jpg; sourceTree = "<group>"; };
@@ -166,10 +163,8 @@
 				667ADA881A28059A008FAD29 /* LiveVideoCaptureManager.m */,
 				664310D11A42C62100BF3F0D /* VideoGLView.h */,
 				664310D21A42C62100BF3F0D /* VideoGLView.mm */,
-				664310D41A42C71900BF3F0D /* VideoGLRenderer.h */,
-				664310D51A42C71900BF3F0D /* VideoGLRenderer.mm */,
-				664310D71A42E40200BF3F0D /* TestGLRenderer.h */,
-				664310D81A42E40200BF3F0D /* TestGLRenderer.mm */,
+				664310D71A42E40200BF3F0D /* VideoGLRenderer.h */,
+				664310D81A42E40200BF3F0D /* VideoGLRenderer.mm */,
 				667ADA561A271E5D008FAD29 /* LiveVideoDocument.xib */,
 				667ADA591A271E5D008FAD29 /* Images.xcassets */,
 				667ADA5B1A271E5D008FAD29 /* LiveVideoMainMenu.xib */,
@@ -351,8 +346,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				667ADA551A271E5D008FAD29 /* LiveVideoDocument.mm in Sources */,
-				664310D61A42C71900BF3F0D /* VideoGLRenderer.mm in Sources */,
-				664310D91A42E40200BF3F0D /* TestGLRenderer.mm in Sources */,
+				664310D91A42E40200BF3F0D /* VideoGLRenderer.mm in Sources */,
 				664310D31A42C62100BF3F0D /* VideoGLView.mm in Sources */,
 				667ADA521A271E5D008FAD29 /* main.m in Sources */,
 				667ADA891A28059A008FAD29 /* LiveVideoCaptureManager.m in Sources */,

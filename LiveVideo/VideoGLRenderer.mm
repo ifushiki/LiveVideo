@@ -1,5 +1,5 @@
 //
-//  VideoGLRenderer.m
+//  TestGLRenderer.m
 //  LiveVideo
 //
 //  Created by IKKO FUSHIKI on 12/18/14.
@@ -7,116 +7,409 @@
 //
 
 #import "VideoGLRenderer.h"
-
 #import "../../DWCommon/DwStaticLib/DwStaticLib/DwStaticLib_cpp.h"
-DwModel* mdlLoadVideoModel();
 
-@interface VideoGLRenderer()
-{
-    GLuint m_Program;
-    DwVertexArray m_vertexArray;
-    GLint  m_fillColorUniformIdx;
-}
-@end
+// Toggle this to disable vertex buffer objects
+// (i.e. use client-side vertex array objects)
+// This must be 1 if using the GL3 Core Profile on the Mac
+#define USE_VERTEX_BUFFER_OBJECTS 1
+
+DwModel* mdlLoadTestModel();
 
 @implementation VideoGLRenderer
 
-- (DwGLBaseRenderer *) createRenderer
+DwVertexArray m_characterVertexArray;
+GLuint m_characterPrgName;
+GLuint m_characterTexName;
+
+GLint m_characterMvpUniformIdx;
+GLfloat m_characterAngle;
+
+//GLboolean m_useVBOs;
+
+- (void) renderCharacter:(GLfloat *) mvp cullFace:(GLuint) cullDirection
 {
-    return [[VideoGLRenderer alloc] init];
+    // Set the directiom of cull face.
+    glCullFace(cullDirection);
+    
+    // Use the program that we previously created
+    glUseProgram(m_characterPrgName);
+    
+    // Set the modelview projection matrix that we calculated above
+    // in our vertex shader
+    glUniformMatrix4fv(m_characterMvpUniformIdx, 1, GL_FALSE, mvp);
+    
+    // Bind the texture to be used
+    glBindTexture(GL_TEXTURE_2D, m_characterTexName);
+    
+    DwDrawVertexArray(&m_characterVertexArray);
 }
 
-// Find Uniform indices from the shaders.
-- (void) findUniformIndices
+- (void) render
 {
-    m_fillColorUniformIdx = glGetUniformLocation(m_Program, "fillColor1");
+    // Set up the modelview and projection matricies
+    GLfloat modelView[16];
+    GLfloat projection[16];
+    GLfloat mvp[16];
     
-    if(m_fillColorUniformIdx < 0)
+    // Bind our default FBO to render to the screen
+    glBindFramebuffer(GL_FRAMEBUFFER, m_defaultFBOName);
+    
+    glViewport(0, 0, self.m_viewWidth, self.m_viewHeight);
+    
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    // Calculate the projection matrix
+//    mtxLoadPerspective(projection, 90, (float)self.m_viewWidth / (float)self.m_viewHeight,5.0,10000);
+//    mtxLoadPerspective(projection, 90, (float)self.m_viewWidth / (float)self.m_viewHeight,5.0,1000);
+    mtxLoadPerspective(projection, 45, (float)self.m_viewWidth / (float)self.m_viewHeight,5.0,1000);
+    
+    // Calculate the modelview matrix to render our character
+    //  at the proper position and rotation
+//    mtxLoadTranslate(modelView, 0, 150, -450);
+    mtxLoadTranslate(modelView, 0, 0, -200);
+    mtxRotateXApply(modelView, 90.0f);
+//    mtxRotateApply(modelView, m_characterAngle, 0.7, 0.3, 1);
+    mtxRotateApply(modelView, m_characterAngle, 0.2, 0.3, 1);
+    
+    // Multiply the modelview and projection matrix and set it in the shader
+    mtxMultiply(mvp, projection, modelView);
+    
+    // Cull back faces now that we no longer render
+    // with an inverted matrix
+    [self renderCharacter:mvp cullFace:GL_BACK];
+    
+    // Update the angle so our character keeps spinning
+    m_characterAngle++;
+}
+
+// Find the Uniform indices from character shaders.
+- (void) findCharacterUniformIndices
+{
+    m_characterMvpUniformIdx = glGetUniformLocation(m_characterPrgName, "modelViewProjectionMatrix");
+    
+    if(m_characterMvpUniformIdx < 0)
     {
-        NSLog(@"No fillColor1 in shader");
+        NSLog(@"No modelViewProjectionMatrix in character shader");
     }
 }
 
-// Set the values of Unimforms in shaders.
-- (void) setUniforms
+// Find the Uniform indices from relfect shaders.
+- (void) findReflectUniformIndices
 {
-    GLfloat color[4];
-    color[0] = 1.0f;    // Red
-    color[1] = 0.0f;    // Green
-    color[2] = 0.0f;    // Blue
-    color[3] = 1.0f;    // Alpha
-    
-    glUniform4fv(m_fillColorUniformIdx, 1, color);
 }
 
-- (id) init
+- (id) initWithDefaultFBO: (GLuint) defaultFBOName
 {
-    self = [super init];
-    if (self) {
-        GLboolean usesVAOs = true;
-        DwModel *model = mdlLoadVideoModel();
+    if((self = [super init]))
+    {
+        NSLog(@"%s %s", glGetString(GL_RENDERER), glGetString(GL_VERSION));
         
-        // Create a vertex array object.
-        m_vertexArray.create(model, usesVAOs);
+        ////////////////////////////////////////////////////
+        // Build all of our and setup initial state here  //
+        // Don't wait until our real time run loop begins //
+        ////////////////////////////////////////////////////
+        
+        m_defaultFBOName = defaultFBOName;
+        
+        self.m_viewWidth = 100;
+        self.m_viewHeight = 100;
+        
+        
+        m_characterAngle = 0;
         
         NSString* filePathName = nil;
+        
+        //////////////////////////////
+        // Load our character model //
+        //////////////////////////////
+        
+//        filePathName = [[NSBundle mainBundle] pathForResource:@"demon" ofType:@"model"];
+//        DwModel *characterModel = mdlLoadModel([filePathName cStringUsingEncoding:NSASCIIStringEncoding]);
+//        DwModel *characterModel = mdlLoadTestModel();
+        float radius = 50;
+        float height = 100;
+        int n = 12;
+        DwModel *characterModel = createCylinderModel(radius, height, n);
+        GLboolean usesVAOs = USE_VERTEX_BUFFER_OBJECTS;
+        
+        m_characterVertexArray.create(characterModel, usesVAOs);
+        
+        ////////////////////////////////////
+        // Load texture for our character //
+        ////////////////////////////////////
+        
+//        filePathName = [[NSBundle mainBundle] pathForResource:@"demon" ofType:@"png"];
+//        filePathName = [[NSBundle mainBundle] pathForResource:@"MapEarth" ofType:@"jpg"];
+        filePathName = [[NSBundle mainBundle] pathForResource:@"face2" ofType:@"jpg"];
+        DwImage *image = imgLoadImage([filePathName cStringUsingEncoding:NSASCIIStringEncoding], false);
+        
+        // Build a texture object with our image data
+        m_characterTexName = buildTexture(image);
+        
+        // We can destroy the image once it's loaded into GL
+        imgDestroyImage(image);
+        
+        
+        ////////////////////////////////////////////////////
+        // Load and Setup shaders for character rendering //
+        ////////////////////////////////////////////////////
+        
         DwResource vtxSource;
         DwResource frgSource;
         
-        filePathName = [[NSBundle mainBundle] pathForResource:@"simple" ofType:@"vsh"];
+        filePathName = [[NSBundle mainBundle] pathForResource:@"character" ofType:@"vsh"];
         vtxSource.loadFromFile([filePathName cStringUsingEncoding:NSASCIIStringEncoding]);
         
-        filePathName = [[NSBundle mainBundle] pathForResource:@"simple" ofType:@"fsh"];
+        filePathName = [[NSBundle mainBundle] pathForResource:@"character" ofType:@"fsh"];
         frgSource.loadFromFile([filePathName cStringUsingEncoding:NSASCIIStringEncoding]);
         
         // Build Program
-        m_Program = DwBuildGLProgram(&vtxSource, &frgSource, NO, NO);
+        m_characterPrgName = DwBuildGLProgram(&vtxSource, &frgSource, NO, YES);
         
-        // Find uniform index of shaders.
-        [self findUniformIndices];
+        [self findCharacterUniformIndices];
+        
+        ////////////////////////////////////////////////
+        // Set up OpenGL state that will never change //
+        ////////////////////////////////////////////////
+        
+        // Depth test will always be enabled
+        glEnable(GL_DEPTH_TEST);
+        
+        // We will always cull back faces for better performance
+        glEnable(GL_CULL_FACE);
+        
+        // Always use this clear color
+        glClearColor(0.5f, 0.4f, 0.5f, 1.0f);
+        
+        // Draw our scene once without presenting the rendered image.
+        //   This is done in order to pre-warm OpenGL
+        // We don't need to present the buffer since we don't actually want the 
+        //   user to see this, we're only drawing as a pre-warm stage
+        [self render];
+        
+        // Reset the m_characterAngle which is incremented in render
+        m_characterAngle = 0;
+        
+        // Check for errors to make sure all of our setup went ok
+        GetGLError();
     }
     
     return self;
 }
 
-- (void) render
-{
-    glUseProgram(m_Program);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    
-    glClearColor(1, 1, 0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    
-    // Depth test will always be enabled
-//    glDisable(GL_DEPTH_TEST);
-//    glDisable(GL_CULL_FACE);
-    // We will always cull back faces for better performance
-    glViewport(0, 0, self.m_viewWidth, self.m_viewHeight);
-    
-    [self setUniforms];
-    
-    DwDrawVertexArray(&m_vertexArray);
-}
 
 - (void) dealloc
-{
-    glDeleteProgram(m_Program);
+{	
+    // Cleanup all OpenGL objects and 
+    glDeleteTextures(1, &m_characterTexName);
+    glDeleteProgram(m_characterPrgName);
+    
+    //  ARC forbids calling [super dealloc].  It is implemented automatically in ARC.
+    //	[super dealloc];
 }
 
+DwModel* createCylinderModel(float radius, float height, int n)
+{
+    DwModel* model = (DwModel*) calloc(sizeof(DwModel), 1);
+    
+    if(model == NULL || radius <= 0.0f || height <= 0.0f || n <= 0)
+    {
+        return NULL;
+    }
+    
+    GLfloat *posArray = NULL;
+    GLfloat *normalArray = NULL;
+    GLfloat *textcoordArray = NULL;
+    GLushort *elementArray = NULL;
+    
+    GLfloat posArraySize = sizeof(GLfloat)*((n+1)*6 + 2*3);
+    GLfloat normArraySize = posArraySize;
+    GLfloat texArraySize = sizeof(GLfloat)*((n+1)*4 + 2*2);
+    GLushort elemArraySize = sizeof(GLushort)*(n*6 + n*6);
+    
+    posArray = (GLfloat *) malloc(posArraySize);
+    normalArray = (GLfloat *) malloc(normArraySize);
+    textcoordArray = (GLfloat *) malloc(texArraySize);
+    elementArray = (GLushort *) malloc(elemArraySize);
+    
+    if (!posArray || !normalArray || !textcoordArray || !elementArray) {
+        free(posArray);
+        free(normalArray);
+        free(textcoordArray);
+        free(elementArray);
+        free(model);
+        
+        return NULL;
+    }
+    
+    // When it comes to here, all the memory was allocated successfully.
+    float theta = 0;
+    float dTheta = 2*M_PI/n;
+    float dZ = height/2;
+    GLfloat *pPos = posArray;
+    GLfloat *pNorm = normalArray;
+    GLfloat *pTex = textcoordArray;
+    GLfloat xTex = 0.0f;
+    GLfloat dXTex = 1.0/n;
 
-@end
+    // In order to prevent the glitch, i must go from 0 to n.
+    for (int i = 0; i <= n; i++) {
+        if (i == n)
+            theta = 0.0f;   // Prevent the glitch.
+        GLfloat c = cos(theta);
+        GLfloat s = sin(theta);
+        GLfloat x = radius*c;
+        GLfloat y = radius*s;
+        
+        // Corresponding location at the top and bottom rings.
+        *pPos = x;
+        pPos++;
+        *pPos = y;
+        pPos++;
+        *pPos = - dZ;
+        pPos++;
+        *pPos = x;
+        pPos++;
+        *pPos = y;
+        pPos++;
+        *pPos = dZ;
+        pPos++;
 
-DwModel* mdlLoadVideoModel()
+        // Corresponding normal at the top and bottom rings.
+        *pNorm = c;
+        pNorm++;
+        *pNorm = s;
+        pNorm++;
+        *pNorm = 0.0f;
+        pNorm++;
+        *pNorm = c;
+        pNorm++;
+        *pNorm = s;
+        pNorm++;
+        *pNorm = 0.0f;
+        pNorm++;
+        
+        // Corresponding texture coordinates at the top and bottom rings.
+        if (i == n)
+            xTex = 1.0f;
+        
+        *pTex = xTex;
+        pTex++;
+        *pTex = 0.0f;
+        pTex++;
+        *pTex = xTex;
+        pTex++;
+        *pTex = 1.0f;
+        pTex++;
+        
+        theta += dTheta;
+        xTex += dXTex;
+    }
+    
+    // Add the center points.
+    *pPos = 0.0f;
+    pPos++;
+    *pPos = 0.0f;
+    pPos++;
+    *pPos = - dZ;
+    pPos++;
+    *pPos = 0.0f;
+    pPos++;
+    *pPos = 0.0f;
+    pPos++;
+    *pPos = dZ;
+ 
+    *pNorm = 0.0f;
+    pNorm++;
+    *pNorm = 0.0f;
+    pNorm++;
+    *pNorm = -1.0f;
+    pNorm++;
+    *pNorm = 0.0f;
+    pNorm++;
+    *pNorm = 0.0f;
+    pNorm++;
+    *pNorm = 1.0f;
+    pNorm++;
+
+    *pTex = 0.5;
+    pTex++;
+    *pTex = 0.0f;
+    pTex++;
+    *pTex = 0.5;
+    pTex++;
+    *pTex = 1.0f;
+    pTex++;    
+    
+    int k = 0;
+    int i0 = 0;
+    for (int i = 0; i < n; i++) {
+        elementArray[k++] = i0;
+        elementArray[k++] = i0 + 3;
+        elementArray[k++] = i0 + 1;
+        elementArray[k++] = i0;
+        elementArray[k++] = i0 + 2;
+        elementArray[k++] = i0 + 3;
+        i0 += 2;
+    }
+
+    // Add the  bottom and top triangles.
+    int iBottom = 2*n;
+    int iTop = iBottom + 1;
+    
+    i0 = 0;
+    for (int i = 0; i < n; i++) {
+        elementArray[k++] = iBottom;
+        elementArray[k++] = i0 + 2;
+        elementArray[k++] = i0;
+        elementArray[k++] = iTop;
+        elementArray[k++] = i0 + 1;
+        elementArray[k++] = i0 + 3;
+        i0 += 2;
+    }
+    
+    model->positions = (GLubyte *) posArray;
+    model->positionArraySize = posArraySize;
+    model->positionType = GL_FLOAT;
+    model->positionSize = 3;
+    model->dataInfo |= DW_MODEL_DATA_INFO_POSITIONS; // positions data is independent.
+    
+    model->normals = (GLubyte *) normalArray;
+    model->normalArraySize = normArraySize;
+    model->normalType = GL_FLOAT;
+    model->normalSize = 3;
+    model->dataInfo |= DW_MODEL_DATA_INFO_NORMALS; // normals data is independent.
+    
+    model->texcoords = (GLubyte *) textcoordArray;
+    model->texcoordArraySize = texArraySize;
+    model->texcoordType = GL_FLOAT;
+    model->texcoordSize = 2;
+    model->dataInfo |= DW_MODEL_DATA_INFO_TEXCOORDS; // texcoords data is independent.
+    
+    model->elements	= (GLubyte*) elementArray;
+    model->elementArraySize = elemArraySize;
+    model->primType = GL_TRIANGLES;
+    model->dataInfo |= DW_MODEL_DATA_INFO_ELEMENTS; // elements data is independent.
+    
+    model->numElements = elemArraySize/sizeof(GLushort);
+    model->elementType = GL_UNSIGNED_SHORT;
+    model->numVertcies = model->positionArraySize / (model->positionSize * sizeof(GLfloat));
+
+    return model;
+}
+
+DwModel* mdlLoadTestModel()
 {
     GLfloat posArray[] = {
-        0.5f, 0.5f, -0.5f,          // 0
-        -0.5f, 0.5f, -0.5f,         // 1
-        -0.5f, -0.5f,  -0.5f,       // 2
-        0.5f, -0.5f,  -0.5f,        // 3
-        0.5f, 0.5f, 0.5f,           // 4
-        -0.5f, 0.5f, 0.5f,          // 5
-        -0.5f, -0.5f,  0.5f,        // 6
-        0.5f, -0.5f,  0.5f          // 7
+        50.0f, 50.0f, -50.0f,          // 0
+        -50.0f, 50.0f, -50.0f,         // 1
+        -50.0f, -50.0f,  -50.0f,       // 2
+        50.0f, -50.0f,  -50.0f,        // 3
+        50.0f, 50.0f, 50.0f,           // 4
+        -50.0f, 50.0f, 50.0f,          // 5
+        -50.0f, -50.0f,  50.0f,        // 6
+        50.0f, -50.0f,  50.0f          // 7
     };
     
     GLfloat texcoordArray[] = {
@@ -193,3 +486,5 @@ DwModel* mdlLoadVideoModel()
     
     return model;
 }
+
+@end

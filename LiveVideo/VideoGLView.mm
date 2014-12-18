@@ -10,7 +10,7 @@
 #import "MyImports.h"
 #import "../../DWCommon/DwStaticLib/DwStaticLib/DwStaticLib_cpp.h"
 #import "VideoGLRenderer.h"
-#import "TestGLRenderer.h"
+//#import "TestGLRenderer.h"
 
 @implementation VideoGLView
 
@@ -18,7 +18,7 @@
 {
 //    return [[VideoGLRenderer alloc] init];
 
-    return [[TestGLRenderer alloc] initWithDefaultFBO:0];
+    return [[VideoGLRenderer alloc] initWithDefaultFBO:0];
 }
 
 @end

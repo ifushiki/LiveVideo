@@ -9,5 +9,11 @@
 #import "../../DWCommon/DwStaticLib/DwStaticLib/AudioVisual/OpenGL/DwGLBaseRenderer.h"
 
 @interface VideoGLRenderer : DwGLBaseRenderer
+{
+    GLuint m_defaultFBOName;
+
+}
+
+- (id) initWithDefaultFBO: (GLuint) defaultFBOName;
 
 @end
