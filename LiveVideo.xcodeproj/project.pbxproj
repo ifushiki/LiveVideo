@@ -7,9 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		664310C61A429C8C00BF3F0D /* character.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 664310C01A429C8C00BF3F0D /* character.fsh */; };
+		664310C71A429C8C00BF3F0D /* character.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 664310C11A429C8C00BF3F0D /* character.vsh */; };
+		664310C81A429C8C00BF3F0D /* reflect.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 664310C21A429C8C00BF3F0D /* reflect.fsh */; };
+		664310C91A429C8C00BF3F0D /* reflect.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 664310C31A429C8C00BF3F0D /* reflect.vsh */; };
+		664310CA1A429C8C00BF3F0D /* simple.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 664310C41A429C8C00BF3F0D /* simple.fsh */; };
+		664310CB1A429C8C00BF3F0D /* simple.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 664310C51A429C8C00BF3F0D /* simple.vsh */; };
+		664310CF1A42A77400BF3F0D /* demon.model in Resources */ = {isa = PBXBuildFile; fileRef = 664310CD1A42A77400BF3F0D /* demon.model */; };
+		664310D01A42A77400BF3F0D /* demon.png in Resources */ = {isa = PBXBuildFile; fileRef = 664310CE1A42A77400BF3F0D /* demon.png */; };
 		667ADA501A271E5D008FAD29 /* LiveVideoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA4F1A271E5D008FAD29 /* LiveVideoAppDelegate.m */; };
 		667ADA521A271E5D008FAD29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA511A271E5D008FAD29 /* main.m */; };
-		667ADA551A271E5D008FAD29 /* LiveVideoDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA541A271E5D008FAD29 /* LiveVideoDocument.m */; };
+		667ADA551A271E5D008FAD29 /* LiveVideoDocument.mm in Sources */ = {isa = PBXBuildFile; fileRef = 667ADA541A271E5D008FAD29 /* LiveVideoDocument.mm */; };
 		667ADA581A271E5D008FAD29 /* LiveVideoDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA561A271E5D008FAD29 /* LiveVideoDocument.xib */; };
 		667ADA5A1A271E5D008FAD29 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA591A271E5D008FAD29 /* Images.xcassets */; };
 		667ADA5D1A271E5D008FAD29 /* LiveVideoMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 667ADA5B1A271E5D008FAD29 /* LiveVideoMainMenu.xib */; };
@@ -33,13 +41,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		664310C01A429C8C00BF3F0D /* character.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = character.fsh; sourceTree = "<group>"; };
+		664310C11A429C8C00BF3F0D /* character.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = character.vsh; sourceTree = "<group>"; };
+		664310C21A429C8C00BF3F0D /* reflect.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = reflect.fsh; sourceTree = "<group>"; };
+		664310C31A429C8C00BF3F0D /* reflect.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = reflect.vsh; sourceTree = "<group>"; };
+		664310C41A429C8C00BF3F0D /* simple.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simple.fsh; sourceTree = "<group>"; };
+		664310C51A429C8C00BF3F0D /* simple.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simple.vsh; sourceTree = "<group>"; };
+		664310CD1A42A77400BF3F0D /* demon.model */ = {isa = PBXFileReference; lastKnownFileType = file; path = demon.model; sourceTree = "<group>"; };
+		664310CE1A42A77400BF3F0D /* demon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = demon.png; sourceTree = "<group>"; };
 		667ADA491A271E5D008FAD29 /* LiveVideo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveVideo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		667ADA4D1A271E5D008FAD29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		667ADA4E1A271E5D008FAD29 /* LiveVideoAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveVideoAppDelegate.h; sourceTree = "<group>"; };
 		667ADA4F1A271E5D008FAD29 /* LiveVideoAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveVideoAppDelegate.m; sourceTree = "<group>"; };
 		667ADA511A271E5D008FAD29 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		667ADA531A271E5D008FAD29 /* LiveVideoDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveVideoDocument.h; sourceTree = "<group>"; };
-		667ADA541A271E5D008FAD29 /* LiveVideoDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveVideoDocument.m; sourceTree = "<group>"; };
+		667ADA541A271E5D008FAD29 /* LiveVideoDocument.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LiveVideoDocument.mm; sourceTree = "<group>"; };
 		667ADA571A271E5D008FAD29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LiveVideoDocument.xib; sourceTree = "<group>"; };
 		667ADA591A271E5D008FAD29 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		667ADA5C1A271E5D008FAD29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LiveVideoMainMenu.xib; sourceTree = "<group>"; };
@@ -76,6 +92,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		664310BF1A429C8C00BF3F0D /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				664310C01A429C8C00BF3F0D /* character.fsh */,
+				664310C11A429C8C00BF3F0D /* character.vsh */,
+				664310C21A429C8C00BF3F0D /* reflect.fsh */,
+				664310C31A429C8C00BF3F0D /* reflect.vsh */,
+				664310C41A429C8C00BF3F0D /* simple.fsh */,
+				664310C51A429C8C00BF3F0D /* simple.vsh */,
+			);
+			path = Shaders;
+			sourceTree = "<group>";
+		};
+		664310CC1A42A77400BF3F0D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				664310CD1A42A77400BF3F0D /* demon.model */,
+				664310CE1A42A77400BF3F0D /* demon.png */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		667ADA401A271E5D008FAD29 = {
 			isa = PBXGroup;
 			children = (
@@ -102,12 +140,13 @@
 				667ADA4E1A271E5D008FAD29 /* LiveVideoAppDelegate.h */,
 				667ADA4F1A271E5D008FAD29 /* LiveVideoAppDelegate.m */,
 				667ADA531A271E5D008FAD29 /* LiveVideoDocument.h */,
-				667ADA541A271E5D008FAD29 /* LiveVideoDocument.m */,
+				667ADA541A271E5D008FAD29 /* LiveVideoDocument.mm */,
 				667ADA871A28059A008FAD29 /* LiveVideoCaptureManager.h */,
 				667ADA881A28059A008FAD29 /* LiveVideoCaptureManager.m */,
 				667ADA561A271E5D008FAD29 /* LiveVideoDocument.xib */,
 				667ADA591A271E5D008FAD29 /* Images.xcassets */,
 				667ADA5B1A271E5D008FAD29 /* LiveVideoMainMenu.xib */,
+				664310BF1A429C8C00BF3F0D /* Shaders */,
 				667ADA4C1A271E5D008FAD29 /* Supporting Files */,
 				667ADA951A290D5C008FAD29 /* Resources */,
 			);
@@ -143,6 +182,7 @@
 		667ADA951A290D5C008FAD29 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				664310CC1A42A77400BF3F0D /* Models */,
 				667ADA961A290D5C008FAD29 /* Images */,
 			);
 			path = Resources;
@@ -249,11 +289,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				667ADA9B1A290D5C008FAD29 /* play-button.png in Resources */,
+				664310C81A429C8C00BF3F0D /* reflect.fsh in Resources */,
+				664310C71A429C8C00BF3F0D /* character.vsh in Resources */,
 				667ADA581A271E5D008FAD29 /* LiveVideoDocument.xib in Resources */,
 				667ADA5A1A271E5D008FAD29 /* Images.xcassets in Resources */,
 				667ADA9A1A290D5C008FAD29 /* pause-button.png in Resources */,
+				664310C61A429C8C00BF3F0D /* character.fsh in Resources */,
+				664310CB1A429C8C00BF3F0D /* simple.vsh in Resources */,
 				667ADA5D1A271E5D008FAD29 /* LiveVideoMainMenu.xib in Resources */,
+				664310D01A42A77400BF3F0D /* demon.png in Resources */,
 				667ADA9C1A290D5C008FAD29 /* stop-button.png in Resources */,
+				664310C91A429C8C00BF3F0D /* reflect.vsh in Resources */,
+				664310CF1A42A77400BF3F0D /* demon.model in Resources */,
+				664310CA1A429C8C00BF3F0D /* simple.fsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,7 +319,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				667ADA551A271E5D008FAD29 /* LiveVideoDocument.m in Sources */,
+				667ADA551A271E5D008FAD29 /* LiveVideoDocument.mm in Sources */,
 				667ADA521A271E5D008FAD29 /* main.m in Sources */,
 				667ADA891A28059A008FAD29 /* LiveVideoCaptureManager.m in Sources */,
 				667ADA501A271E5D008FAD29 /* LiveVideoAppDelegate.m in Sources */,

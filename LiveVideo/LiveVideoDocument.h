@@ -7,8 +7,8 @@
 //
 
 #import "MyImports.h"
-
 @class LiveVideoCaptureManager;
+@class DwGLBaseView;
 
 @interface LiveVideoDocument : DwDocument
 
@@ -16,6 +16,9 @@
 @property (weak) IBOutlet NSView *previewView;
 @property (weak) IBOutlet NSView *videoOutputView;
 @property (weak) IBOutlet NSView *videoOutputView2;
+@property (weak) IBOutlet NSView *glViewHolder;
+@property (strong) DwGLBaseView *myGLView;
+
 @property (strong) LiveVideoCaptureManager *avManager;
 @property (strong) DwVideoOutputView* filterView;
 @property (strong) DwVideoOutputLayer* filterLayer;

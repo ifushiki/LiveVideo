@@ -12,6 +12,8 @@
 #import <CoreVideo/CoreVideo.h>
 #import <CoreVideo/CVPixelBuffer.h>
 #import "LiveVideoCaptureManager.h"
+#import "../../DWCommon/DwStaticLib/DwStaticLib/DwStaticLib.h"
+#import "../../DWCommon/DwStaticLib/DwStaticLib/DwStaticLib_cpp.h"
 
 @interface LiveVideoDocument ()
 {
@@ -35,6 +37,8 @@
 @implementation LiveVideoDocument
 
 @synthesize previewView, videoOutputView, videoOutputView2;
+@synthesize myGLView;
+
 @synthesize filterView;
 @synthesize avManager;
 @synthesize filterChoice, colorChoice;
@@ -183,6 +187,18 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
             self.filterView = [[DwVideoOutputView alloc] initWithFrame:frame];
             [self.videoOutputView2 addSubview:self.filterView];
         }
+    }
+    
+    if (self.glViewHolder) {
+        NSRect bounds = self.glViewHolder.bounds;
+        // Use the arent's view's bounds so that the frame origin is 0.
+//        self.myGLView = [[SimpleGLView alloc] init];
+        self.myGLView = [[DwOpenGLView alloc] init];
+        self.myGLView.frame = bounds;   // The frame origin is 0.
+        [self.myGLView initPixelFormatAndContext];
+        
+        // myGLView's prepareOpenGL method will be called when its parent's view is set.
+        [self.glViewHolder addSubview:self.myGLView];
     }
     
     CVReturn            error = kCVReturnSuccess;
