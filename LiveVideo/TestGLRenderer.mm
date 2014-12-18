@@ -129,7 +129,7 @@ GLfloat m_characterAngle;
 //        DwModel *characterModel = mdlLoadTestModel();
         float radius = 50;
         float height = 80;
-        int n = 6;
+        int n = 12;
         DwModel *characterModel = createCylinderModel(radius, height, n);
         GLboolean usesVAOs = USE_VERTEX_BUFFER_OBJECTS;
         
@@ -221,10 +221,10 @@ DwModel* createCylinderModel(float radius, float height, int n)
     GLfloat *textcoordArray = NULL;
     GLushort *elementArray = NULL;
     
-    GLfloat posArraySize = sizeof(GLfloat)*n*6;
+    GLfloat posArraySize = sizeof(GLfloat)*(n*6 + 2*3);
     GLfloat normArraySize = posArraySize;
-    GLfloat texArraySize = sizeof(GLfloat)*n*4;
-    GLushort elemArraySize = sizeof(GLushort)*n*6;
+    GLfloat texArraySize = sizeof(GLfloat)*(n*4 + 2*2);
+    GLushort elemArraySize = sizeof(GLushort)*(n*6 + n*6);
     
     posArray = (GLfloat *) malloc(posArraySize);
     normalArray = (GLfloat *) malloc(normArraySize);
@@ -296,26 +296,65 @@ DwModel* createCylinderModel(float radius, float height, int n)
         xTex += dXTex;
     }
     
+    // Add the center points.
+    *pPos = 0.0f;
+    pPos++;
+    *pPos = 0.0f;
+    pPos++;
+    *pPos = - dZ;
+    pPos++;
+    *pPos = 0.0f;
+    pPos++;
+    *pPos = 0.0f;
+    pPos++;
+    *pPos = dZ;
+ 
+    *pNorm = 0.0f;
+    pNorm++;
+    *pNorm = 0.0f;
+    pNorm++;
+    *pNorm = -1.0f;
+    pNorm++;
+    *pNorm = 0.0f;
+    pNorm++;
+    *pNorm = 0.0f;
+    pNorm++;
+    *pNorm = 1.0f;
+    pNorm++;
+
+    *pTex = 0.5;
+    *pTex++ = 0.0f;
+    *pTex++ = 0.5;
+    *pTex++ = 1.0f;
+    pTex++;    
+    
     int k = 0;
     int i0 = 0;
-    for (int i = 0; i < n - 1; i++) {
+    for (int i = 0; i < n; i++) {
         elementArray[k++] = i0;
-        elementArray[k++] = i0 + 3;
+        elementArray[k++] = i0 + 3 < 2*n ? i0 + 3: 1;
         elementArray[k++] = i0 + 1;
         elementArray[k++] = i0;
-        elementArray[k++] = i0 + 2;
-        elementArray[k++] = i0 + 3;
+        elementArray[k++] = i0 + 2 < 2*n ? i0 + 2: 0;
+        elementArray[k++] = i0 + 3 < 2*n ? i0 + 3: 1;
         i0 += 2;
     }
 
-    // The last 2  elements connect with the first 2 elements.
-    elementArray[k++] = i0;
-    elementArray[k++] = 1;
-    elementArray[k++] = i0 + 1;
-    elementArray[k++] = i0;
-    elementArray[k++] = 0;
-    elementArray[k++] = 1;
-
+    // Add the  bottom and top triangles.
+    int iBottom = 2*n;
+    int iTop = iBottom + 1;
+    
+    i0 = 0;
+    for (int i = 0; i < n; i++) {
+        elementArray[k++] = iBottom;
+        elementArray[k++] = i0 + 2 < 2*n ? i0 + 2: 0;
+        elementArray[k++] = i0;
+        elementArray[k++] = iTop;
+        elementArray[k++] = i0 + 1;
+        elementArray[k++] = i0 + 3 < 2*n ? i0 + 3: 1;
+        i0 += 2;
+    }
+    
     model->positions = (GLubyte *) posArray;
     model->positionArraySize = posArraySize;
     model->positionType = GL_FLOAT;
@@ -339,7 +378,7 @@ DwModel* createCylinderModel(float radius, float height, int n)
     model->primType = GL_TRIANGLES;
     model->dataInfo |= DW_MODEL_DATA_INFO_ELEMENTS; // elements data is independent.
     
-    model->numElements = n*6;
+    model->numElements = elemArraySize/sizeof(GLushort);
     model->elementType = GL_UNSIGNED_SHORT;
     model->numVertcies = model->positionArraySize / (model->positionSize * sizeof(GLfloat));
 
