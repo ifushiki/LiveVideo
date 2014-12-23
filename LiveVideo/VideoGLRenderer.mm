@@ -1,5 +1,5 @@
 //
-//  TestGLRenderer.m
+//  VideoGLRenderer.m
 //  LiveVideo
 //
 //  Created by IKKO FUSHIKI on 12/18/14.

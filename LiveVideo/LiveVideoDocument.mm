@@ -243,7 +243,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     
     if(USE_FILTER_LAYER) {
         DwVideoOutputLayer* layer = myDocument.filterLayer;
-        if (layer && [layer isReadyToReceiveNewData] == NO)
+        if (layer && [layer.imagePipe isReadyToReceiveNewData] == NO)
         {
             // setNeedsDisplay must be called in the main thread.
             [layer performSelectorOnMainThread:@selector(updateLayer:) withObject:nil waitUntilDone:YES];
@@ -253,7 +253,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
         DwVideoOutputView* view = myDocument.filterView;
         
         // Call a display update only when the new data is already received and ready to draw (when isReadyToReceiveNewData() is false).
-        if ([view isReadyToReceiveNewData]  == NO)
+        if (view && [view.imagePipe isReadyToReceiveNewData]  == NO)
         {
             [view setNeedsDisplay:YES];
         }
@@ -338,10 +338,36 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
 {
     // Get the filter selection
     int index = (int) [sender selectedSegment];
-    if (USE_FILTER_LAYER)
-        [self.filterLayer changeFiler:index];
+
+    DwImagePipe* imagePipe = nil;
+    if (USE_FILTER_LAYER) {
+        if (self.filterLayer) {
+            imagePipe = self.filterLayer.imagePipe;
+        }
+    }
+    else {
+        if (self.filterView) {
+            imagePipe = self.filterView.imagePipe;
+        }
+    }
+    
+    if (imagePipe) {
+        [imagePipe changeFilter:index];
+    }
+    
+/*
+if (USE_FILTER_LAYER)
+    {
+        if (self.filterLayer && self.filterLayer.imagePipe) {
+            [self.filterLayer.imagePipe changeFilter:index];
+        }
+    }
     else
-        [self.filterView changeFiler:index];
+        if (self.filterView && self.filterView.imagePipe) {
+            [self.filterView.imagePipe changeFilter:index];
+
+        }
+ */
 }
 
 - (IBAction) getColorMode:(id)sender
@@ -349,27 +375,62 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     // Get the filter selection
     NSButtonCell *cell = [sender selectedCell];
     NSString* title = cell.title;
+    DwImagePipe* imagePipe = nil;
+    if (USE_FILTER_LAYER) {
+        if (self.filterLayer) {
+            imagePipe = self.filterLayer.imagePipe;
+        }
+    }
+    else {
+        if (self.filterView) {
+            imagePipe = self.filterView.imagePipe;
+        }
+    }
+    
+    if (imagePipe == nil)
+        return;
+    
     if ([title isEqualToString:@"Color"]) {
+        [imagePipe changeColorMode:kColor];
+/*
         if (USE_FILTER_LAYER)
             [self.filterLayer changeColorMode:kColor];
         else
             [self.filterView changeColorMode:kColor];
+ */
     }
     else if ([title isEqualToString:@"Gray"]) {
+        [imagePipe changeColorMode:kGray];
+/*
         if (USE_FILTER_LAYER)
             [self.filterLayer changeColorMode:kGray];
         else
             [self.filterView changeColorMode:kGray];
+ */
     }
 }
 
 - (IBAction) togglePlayMode:(id) sender;
 {
-    BOOL playing;
+    BOOL playing = NO;
+    
+    DwImagePipe *imagePipe = nil;
+    if (USE_FILTER_LAYER) {
+        if (self.filterLayer) {
+            imagePipe = self.filterLayer.imagePipe;
+        }
+    }
+    else {
+        if (self.filterView) {
+            imagePipe = self.filterView.imagePipe;
+        }
+    }
+/*
     if (USE_FILTER_LAYER)
         playing = [self.filterLayer isPlaying];
     else
         playing = [self.filterView isPlaying];
+ */
 
     if (playing) {
         // Change the image to play button
@@ -382,10 +443,16 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
         [[avManager session] startRunning];
     }
     
+    if (imagePipe) {
+        [imagePipe togglePlayMode];
+    }
+    
+/*
     if (USE_FILTER_LAYER)
         [self.filterLayer togglePlayMode];
     else
         [self.filterView togglePlayMode];
+ */
 }
 
 @end

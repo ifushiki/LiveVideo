@@ -329,12 +329,12 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         
         if(USE_FILTER_LAYER)
         {
-            if ([self.videoOutputLayer2 isReadyToReceiveNewData] == YES)
+            if (self.videoOutputLayer2 && [self.videoOutputLayer2.imagePipe isReadyToReceiveNewData] == YES)
                 [(DwVideoOutputLayer *) self.videoOutputLayer2 sendImageData:dataBuffer withBytesPerRow:bytesPerRow withWidth:width withHeight:height];
 
         }
         else  {
-            if ([self.videoOutputView2 isReadyToReceiveNewData] == YES)
+            if (self.videoOutputView2 && [self.videoOutputView2.imagePipe isReadyToReceiveNewData] == YES)
                 [(DwVideoOutputView *) self.videoOutputView2 sendImageData:dataBuffer withBytesPerRow:bytesPerRow withWidth:width withHeight:height];
         }
         
