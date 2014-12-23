@@ -354,20 +354,6 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     if (imagePipe) {
         [imagePipe changeFilter:index];
     }
-    
-/*
-if (USE_FILTER_LAYER)
-    {
-        if (self.filterLayer && self.filterLayer.imagePipe) {
-            [self.filterLayer.imagePipe changeFilter:index];
-        }
-    }
-    else
-        if (self.filterView && self.filterView.imagePipe) {
-            [self.filterView.imagePipe changeFilter:index];
-
-        }
- */
 }
 
 - (IBAction) getColorMode:(id)sender
@@ -392,21 +378,9 @@ if (USE_FILTER_LAYER)
     
     if ([title isEqualToString:@"Color"]) {
         [imagePipe changeColorMode:kColor];
-/*
-        if (USE_FILTER_LAYER)
-            [self.filterLayer changeColorMode:kColor];
-        else
-            [self.filterView changeColorMode:kColor];
- */
     }
     else if ([title isEqualToString:@"Gray"]) {
         [imagePipe changeColorMode:kGray];
-/*
-        if (USE_FILTER_LAYER)
-            [self.filterLayer changeColorMode:kGray];
-        else
-            [self.filterView changeColorMode:kGray];
- */
     }
 }
 
@@ -425,12 +399,10 @@ if (USE_FILTER_LAYER)
             imagePipe = self.filterView.imagePipe;
         }
     }
-/*
-    if (USE_FILTER_LAYER)
-        playing = [self.filterLayer isPlaying];
-    else
-        playing = [self.filterView isPlaying];
- */
+    
+    if (imagePipe) {
+        playing = [imagePipe isPlaying];
+    }
 
     if (playing) {
         // Change the image to play button
@@ -446,13 +418,6 @@ if (USE_FILTER_LAYER)
     if (imagePipe) {
         [imagePipe togglePlayMode];
     }
-    
-/*
-    if (USE_FILTER_LAYER)
-        [self.filterLayer togglePlayMode];
-    else
-        [self.filterView togglePlayMode];
- */
 }
 
 @end
