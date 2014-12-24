@@ -28,8 +28,8 @@
 
 @property CVDisplayLinkRef displayLink;
 
-- (IBAction) getFilter:(id)sender;
-- (IBAction) getColorMode:(id)sender;
+- (IBAction) setFilter:(id)sender;
+- (IBAction) setColorMode:(id)sender;
 - (IBAction) togglePlayMode:(id) sender;
 
 @end

@@ -53,7 +53,7 @@
                             </column>
                         </cells>
                         <connections>
-                            <action selector="getColorMode:" target="-2" id="GyX-8E-DxU"/>
+                            <action selector="setColorMode:" target="-2" id="gsa-xK-cLI"/>
                         </connections>
                     </matrix>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jim-H6-dNl">
@@ -75,7 +75,7 @@
                             </segments>
                         </segmentedCell>
                         <connections>
-                            <action selector="getFilter:" target="-2" id="oXW-Cf-P3y"/>
+                            <action selector="setFilter:" target="-2" id="Iw5-sf-hbk"/>
                         </connections>
                     </segmentedControl>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="21a-pf-Fev">

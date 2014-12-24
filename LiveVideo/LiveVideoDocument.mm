@@ -334,7 +334,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     }
 }
 
-- (IBAction) getFilter:(id)sender
+- (IBAction) setFilter:(id)sender
 {
     // Get the filter selection
     int index = (int) [sender selectedSegment];
@@ -356,7 +356,7 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     }
 }
 
-- (IBAction) getColorMode:(id)sender
+- (IBAction) setColorMode:(id)sender
 {
     // Get the filter selection
     NSButtonCell *cell = [sender selectedCell];
