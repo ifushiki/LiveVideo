@@ -13,6 +13,7 @@
 #import <CoreVideo/CoreVideo.h>
 #import <CoreVideo/CVPixelBuffer.h>
 #import "MyImports.h"
+#import "VideoGLView.h"
 
 // When using CALayer for drawing filtered image, set USE_FILTER_LAYER to YES
 #define USE_FILTER_LAYER  YES
@@ -36,6 +37,7 @@
 @property (weak) NSView                         *videoOutputView;
 @property (weak) DwVideoOutputView              *videoOutputView2;
 @property (weak) DwVideoOutputLayer             *videoOutputLayer2;
+@property (strong) VideoGLView                  *myGLView;
 
 @property (assign) void*                        *dataBuffer;
 @property (assign) long                         dataBufferSize;
@@ -44,6 +46,6 @@
 - (void)refreshDevices;
 - (void)setTransportMode:(AVCaptureDeviceTransportControlsPlaybackMode)playbackMode
                    speed:(AVCaptureDeviceTransportControlsSpeed)speed forDevice:(AVCaptureDevice *)device;
-- (void) setOutputViews:(NSView *) outputView1 withSecondView:(DwVideoOutputView *) outputView2 withSecondLayer:(DwVideoOutputLayer *) outputLayer2;
+- (void) setOutputViews:(NSView *) outputView1 withSecondView:(DwVideoOutputView *) outputView2 withSecondLayer:(DwVideoOutputLayer *) outputLayer2 withGLView:(VideoGLView *) itsGLView;
 
 @end

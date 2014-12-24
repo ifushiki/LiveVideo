@@ -129,6 +129,9 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
     
     // Stop the session
     [[avManager session] stopRunning];
+
+    // Stop the displayLink.
+    CVDisplayLinkStop(self.displayLink);
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {
@@ -176,17 +179,18 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
     }
     
     // Add a DwVideoOutputLayer if we use the layer for drawing in videoOutputView2.
+    CGRect bounds2 = CGRectMake(0, 0, 360, 240);
     if (self.videoOutputView2 != nil) {
-        frame = self.videoOutputView2.bounds;
+        bounds2 = self.videoOutputView2.bounds;
         if(USE_FILTER_LAYER) {
             self.filterView = nil;
-            self.filterLayer = [[DwVideoOutputLayer alloc] initWithFrame:frame];
+            self.filterLayer = [[DwVideoOutputLayer alloc] initWithFrame:bounds2];
             [self.videoOutputView2 setWantsLayer:YES];
             [self.videoOutputView2 setLayer:self.filterLayer];
         }
         else {
             self.filterLayer = nil;
-            self.filterView = [[DwVideoOutputView alloc] initWithFrame:frame];
+            self.filterView = [[DwVideoOutputView alloc] initWithFrame:bounds2];
             [self.videoOutputView2 addSubview:self.filterView];
         }
     }
@@ -199,6 +203,9 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
         self.myGLView = [[VideoGLView alloc] init];
         self.myGLView.frame = bounds;   // The frame origin is 0.
         [self.myGLView initPixelFormatAndContext];
+        
+        // Initialize image pipe.  The dimension of the receiving image is the same as videoOutputView2
+        [self.myGLView initImagePipe:bounds2];
         
         // myGLView's prepareOpenGL method will be called when its parent's view is set.
         [self.glViewHolder addSubview:self.myGLView];
@@ -218,7 +225,8 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
     error = CVDisplayLinkSetOutputCallback(displayLink,// 3
                                            MyDisplayLinkCallback, (__bridge void *) self);
 
-    [avManager setOutputViews:videoOutputView withSecondView:self.filterView withSecondLayer:self.filterLayer];
+    [avManager setOutputViews:videoOutputView withSecondView:self.filterView withSecondLayer:self.filterLayer
+        withGLView:self.myGLView];
     
     // Start the session
     [[avManager session] startRunning];

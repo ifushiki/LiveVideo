@@ -29,6 +29,12 @@ GLfloat m_characterAngle;
 
 - (void) renderCharacter:(GLfloat *) mvp cullFace:(GLuint) cullDirection
 {
+/*
+    if (self.imagePipe && [self.imagePipe isReadyToReceiveNewData] == NO) {
+        
+        [self.imagePipe setReadyToReceiveNewData:YES];
+    }
+ */
     // Set the directiom of cull face.
     glCullFace(cullDirection);
     

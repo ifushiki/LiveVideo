@@ -14,11 +14,34 @@
 
 @implementation VideoGLView
 
+@synthesize imagePipe;
+
 - (DwGLBaseRenderer *) createRenderer
 {
 //    return [[VideoGLRenderer alloc] init];
 
     return [[VideoGLRenderer alloc] initWithDefaultFBO:0];
+}
+
+// This initialize only the input buffer in imagePipe.
+- (void) initImagePipe:(NSRect) bounds
+{
+    self.imagePipe = [[DwImagePipe alloc] init];
+    if (self.imagePipe) {
+        [self.imagePipe initBufferParameters:bounds withFlag:ImageBufferFlag_InputOnly];
+    }
+}
+
+//======================================================================================
+// receiveImageData:
+//
+// Called from AvManager:captureOutput
+//======================================================================================
+- (void) receiveImageData:(void *) dataBuffer withBytesPerRow:(long) bytesPerRow1 withWidth:(long) width1 withHeight:(long) height1
+{
+    if (self.imagePipe) {
+        [self.imagePipe receiveImageData:dataBuffer withBytesPerRow:bytesPerRow1 withWidth:width1 withHeight:height1];
+    }
 }
 
 @end

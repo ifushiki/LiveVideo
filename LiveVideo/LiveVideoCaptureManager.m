@@ -89,11 +89,12 @@
     
 }
 
-- (void) setOutputViews:(NSView *) outputView1 withSecondView:(DwVideoOutputView *) outputView2 withSecondLayer:(DwVideoOutputLayer *)outputLayer2
+- (void) setOutputViews:(NSView *) outputView1 withSecondView:(DwVideoOutputView *) outputView2 withSecondLayer:(DwVideoOutputLayer *)outputLayer2 withGLView:(VideoGLView *) itsGLView
 {
     self.videoOutputView = outputView1;
     self.videoOutputView2 = outputView2;
     self.videoOutputLayer2 = outputLayer2;
+    self.myGLView = itsGLView;
 }
 
 #pragma mark - Device selection
@@ -338,6 +339,9 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
                 [(DwVideoOutputView *) self.videoOutputView2 receiveImageData:dataBuffer withBytesPerRow:bytesPerRow withWidth:width withHeight:height];
         }
         
+        if (self.myGLView && [self.myGLView.imagePipe isReadyToReceiveNewData] == YES) {
+            [self.myGLView.imagePipe receiveImageData:dataBuffer withBytesPerRow:bytesPerRow withWidth:width withHeight:height];
+        }
         
         /*We display the result on the image view (We need to change the orientation of the image so that the video is displayed correctly).
          Same thing as for the CALayer we are not in the main thread so ...*/
