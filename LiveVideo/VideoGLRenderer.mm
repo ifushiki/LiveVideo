@@ -51,7 +51,7 @@ GLfloat m_characterAngle;
     DwDrawVertexArray(&m_characterVertexArray);
 }
 
-- (void) render
+- (void) render:(DwGLBaseView *) itsView
 {
     // Set up the modelview and projection matricies
     GLfloat modelView[16];
@@ -105,7 +105,7 @@ GLfloat m_characterAngle;
 {
 }
 
-- (id) initWithDefaultFBO: (GLuint) defaultFBOName
+- (id) initWithDefaultFBO: (GLuint) defaultFBOName withView:(DwGLBaseView *)itsVew
 {
     if((self = [super init]))
     {
@@ -192,7 +192,7 @@ GLfloat m_characterAngle;
         //   This is done in order to pre-warm OpenGL
         // We don't need to present the buffer since we don't actually want the 
         //   user to see this, we're only drawing as a pre-warm stage
-        [self render];
+        [self render:itsVew];
         
         // Reset the m_characterAngle which is incremented in render
         m_characterAngle = 0;

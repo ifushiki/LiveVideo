@@ -20,7 +20,7 @@
 {
 //    return [[VideoGLRenderer alloc] init];
 
-    return [[VideoGLRenderer alloc] initWithDefaultFBO:0];
+    return [[VideoGLRenderer alloc] initWithDefaultFBO:0 withView:self];
 }
 
 // This initialize only the input buffer in imagePipe.

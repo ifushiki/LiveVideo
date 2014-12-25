@@ -14,6 +14,6 @@
 
 }
 
-- (id) initWithDefaultFBO: (GLuint) defaultFBOName;
+- (id) initWithDefaultFBO: (GLuint) defaultFBOName withView:(DwGLBaseView *) itsVew;
 
 @end
