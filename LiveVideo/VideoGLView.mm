@@ -28,7 +28,7 @@
 {
     self.imagePipe = [[DwImagePipe alloc] init];
     if (self.imagePipe) {
-        [self.imagePipe initBufferParameters:bounds withFlag:ImageBufferFlag_InputOnly];
+        [self.imagePipe initBufferParameters:bounds withFlag:ImageBufferFlag_Input];
     }
 }
 
