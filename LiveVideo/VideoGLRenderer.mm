@@ -28,14 +28,35 @@ GLfloat m_characterAngle;
 
 //GLboolean m_useVBOs;
 
+- (BOOL) updateTexture:(DwGLBaseView *) itsView
+{
+    BOOL needsToUpdate = NO;
+
+    VideoGLView *glView = (VideoGLView *) itsView;
+    DwImagePipe *imagePipe = glView.imagePipe;
+    
+    if (imagePipe && [imagePipe isReadyToRedraw] == YES) {
+        DwImageBufferInfo info;
+        if (imagePipe.inputBuffer) {
+            [imagePipe.inputBuffer getImageBufferInfo:&info];
+            // Set the texture to be used
+            setTextureFromImageBuffer(m_characterTexName, &info);
+        }
+        
+        [imagePipe setReadyToReceiveNewData:YES];
+        [imagePipe setReadyToRedraw:NO];
+        
+        needsToUpdate = TRUE;
+    }
+    
+    return needsToUpdate;
+}
+
 - (void) renderCharacter:(GLfloat *) mvp cullFace:(GLuint) cullDirection withView:(DwGLBaseView *) itsView
 {
     if (!itsView)
         return;
     
-    VideoGLView *glView = (VideoGLView *) itsView;
-    DwImagePipe *imagePipe = glView.imagePipe;
-
     // Set the directiom of cull face.
     glCullFace(cullDirection);
     
@@ -45,65 +66,55 @@ GLfloat m_characterAngle;
     // Set the modelview projection matrix that we calculated above
     // in our vertex shader
     glUniformMatrix4fv(m_characterMvpUniformIdx, 1, GL_FALSE, mvp);
-
-    DwImageBufferInfo info;
-    if (imagePipe.inputBuffer) {
-        [imagePipe.inputBuffer getImageBufferInfo:&info];
-//        setTextureFromImageBuffer(m_characterTexName, &info);
-    }
     
+    [self updateTexture:itsView];
+
     // Bind the texture to be used
     glBindTexture(GL_TEXTURE_2D, m_characterTexName);
 
     DwDrawVertexArray(&m_characterVertexArray);
 }
 
-- (void) render:(DwGLBaseView *) itsView
+- (BOOL) render:(DwGLBaseView *) itsView
 {
-    VideoGLView *glView = (VideoGLView *) itsView;
-    DwImagePipe *imagePipe = glView.imagePipe;
+    BOOL needsToUpdate = NO;
     
-//    if (imagePipe && [imagePipe isReadyToReceiveNewData] == NO) {
-//    if (imagePipe && [imagePipe isReadyToRedraw] == YES) {
-
-        // Set up the modelview and projection matricies
-        GLfloat modelView[16];
-        GLfloat projection[16];
-        GLfloat mvp[16];
-        
-        // Bind our default FBO to render to the screen
-        glBindFramebuffer(GL_FRAMEBUFFER, m_defaultFBOName);
-        
-        glViewport(0, 0, self.m_viewWidth, self.m_viewHeight);
-        
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
-        // Calculate the projection matrix
-        //    mtxLoadPerspective(projection, 90, (float)self.m_viewWidth / (float)self.m_viewHeight,5.0,10000);
-        //    mtxLoadPerspective(projection, 90, (float)self.m_viewWidth / (float)self.m_viewHeight,5.0,1000);
-        mtxLoadPerspective(projection, 45, (float)self.m_viewWidth / (float)self.m_viewHeight,5.0,1000);
-        
-        // Calculate the modelview matrix to render our character
-        //  at the proper position and rotation
-        //    mtxLoadTranslate(modelView, 0, 150, -450);
-        mtxLoadTranslate(modelView, 0, 0, -200);
-        mtxRotateXApply(modelView, 90.0f);
-        //    mtxRotateApply(modelView, m_characterAngle, 0.7, 0.3, 1);
-        mtxRotateApply(modelView, m_characterAngle, 0.2, 0.3, 1);
-        
-        // Multiply the modelview and projection matrix and set it in the shader
-        mtxMultiply(mvp, projection, modelView);
-        
-        // Cull back faces now that we no longer render
-        // with an inverted matrix
-        [self renderCharacter:mvp cullFace:GL_BACK withView:itsView];
-        
-        // Update the angle so our character keeps spinning
- 
-//        [imagePipe setReadyToReceiveNewData:YES];
-//        [imagePipe setReadyToRedraw:NO];
-//    }
+    // Set up the modelview and projection matricies
+    GLfloat modelView[16];
+    GLfloat projection[16];
+    GLfloat mvp[16];
+    
+    // Bind our default FBO to render to the screen
+    glBindFramebuffer(GL_FRAMEBUFFER, m_defaultFBOName);
+    
+    glViewport(0, 0, self.m_viewWidth, self.m_viewHeight);
+    
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    // Calculate the projection matrix
+    //    mtxLoadPerspective(projection, 90, (float)self.m_viewWidth / (float)self.m_viewHeight,5.0,10000);
+    //    mtxLoadPerspective(projection, 90, (float)self.m_viewWidth / (float)self.m_viewHeight,5.0,1000);
+    mtxLoadPerspective(projection, 45, (float)self.m_viewWidth / (float)self.m_viewHeight,5.0,1000);
+    
+    // Calculate the modelview matrix to render our character
+    //  at the proper position and rotation
+    //    mtxLoadTranslate(modelView, 0, 150, -450);
+    mtxLoadTranslate(modelView, 0, 0, -200);
+    mtxRotateXApply(modelView, 90.0f);
+    //    mtxRotateApply(modelView, m_characterAngle, 0.7, 0.3, 1);
+    mtxRotateApply(modelView, m_characterAngle, 0.2, 0.3, 1);
+    
+    // Multiply the modelview and projection matrix and set it in the shader
+    mtxMultiply(mvp, projection, modelView);
+    
+    // Cull back faces now that we no longer render
+    // with an inverted matrix
+    [self renderCharacter:mvp cullFace:GL_BACK withView:itsView];
+    
+    needsToUpdate = YES;
     m_characterAngle++;
+    
+    return needsToUpdate;
 }
 
 // Find the Uniform indices from character shaders.
