@@ -7,6 +7,7 @@
 //
 
 #import "VideoGLRenderer.h"
+#import "VideoGLView.h"
 #import "../../DWCommon/DwStaticLib/DwStaticLib/DwStaticLib_cpp.h"
 
 // Toggle this to disable vertex buffer objects
@@ -27,28 +28,32 @@ GLfloat m_characterAngle;
 
 //GLboolean m_useVBOs;
 
-- (void) renderCharacter:(GLfloat *) mvp cullFace:(GLuint) cullDirection
+- (void) renderCharacter:(GLfloat *) mvp cullFace:(GLuint) cullDirection withView:(DwGLBaseView *) itsView
 {
-/*
-    if (self.imagePipe && [self.imagePipe isReadyToReceiveNewData] == NO) {
+    if (!itsView)
+        return;
+    
+//    VideoGLView *glView = (VideoGLView *) itsView;
+
+//    if (glView.imagePipe && [glView.imagePipe isReadyToReceiveNewData] == NO) {
+ 
+        // Set the directiom of cull face.
+        glCullFace(cullDirection);
         
-        [self.imagePipe setReadyToReceiveNewData:YES];
-    }
- */
-    // Set the directiom of cull face.
-    glCullFace(cullDirection);
-    
-    // Use the program that we previously created
-    glUseProgram(m_characterPrgName);
-    
-    // Set the modelview projection matrix that we calculated above
-    // in our vertex shader
-    glUniformMatrix4fv(m_characterMvpUniformIdx, 1, GL_FALSE, mvp);
-    
-    // Bind the texture to be used
-    glBindTexture(GL_TEXTURE_2D, m_characterTexName);
-    
-    DwDrawVertexArray(&m_characterVertexArray);
+        // Use the program that we previously created
+        glUseProgram(m_characterPrgName);
+        
+        // Set the modelview projection matrix that we calculated above
+        // in our vertex shader
+        glUniformMatrix4fv(m_characterMvpUniformIdx, 1, GL_FALSE, mvp);
+        
+        // Bind the texture to be used
+        glBindTexture(GL_TEXTURE_2D, m_characterTexName);
+        
+        DwDrawVertexArray(&m_characterVertexArray);
+
+//        [glView.imagePipe setReadyToReceiveNewData:YES];
+//    }
 }
 
 - (void) render:(DwGLBaseView *) itsView
@@ -83,7 +88,7 @@ GLfloat m_characterAngle;
     
     // Cull back faces now that we no longer render
     // with an inverted matrix
-    [self renderCharacter:mvp cullFace:GL_BACK];
+    [self renderCharacter:mvp cullFace:GL_BACK withView:itsView];
     
     // Update the angle so our character keeps spinning
     m_characterAngle++;
