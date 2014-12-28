@@ -191,24 +191,10 @@ GLfloat m_characterAngle;
         
         m_characterVertexArray.create(characterModel, usesVAOs);
         
-/*
         ////////////////////////////////////
         // Load texture for our character //
         ////////////////////////////////////
-        
-//        filePathName = [[NSBundle mainBundle] pathForResource:@"demon" ofType:@"png"];
-//        filePathName = [[NSBundle mainBundle] pathForResource:@"MapEarth" ofType:@"jpg"];
-        filePathName = [[NSBundle mainBundle] pathForResource:@"face2" ofType:@"jpg"];
-        DwImage *image = imgLoadImage([filePathName cStringUsingEncoding:NSASCIIStringEncoding], false);
-        
-        // Build a texture object with our image data
-        m_characterTexName = buildTexture(image);
-        
-        // We can destroy the image once it's loaded into GL
-        imgDestroyImage(image);
- */
         [self setToStaticTexture];
-        
         
         ////////////////////////////////////////////////////
         // Load and Setup shaders for character rendering //
