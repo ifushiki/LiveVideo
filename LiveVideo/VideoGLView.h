@@ -11,8 +11,11 @@
 
 @interface VideoGLView : DwGLBaseView
 
+@property BOOL useVideoTexture;
+
 - (void) initImagePipe:(NSRect) bounds;
 - (void) receiveImageData:(void *) dataBuffer withBytesPerRow:(long) bytesPerRow withWidth:(long) width withHeight:(long) height;
+- (void) setTextureMode:(BOOL) videoMode;
 
 @property (strong) DwImagePipe* imagePipe;
 

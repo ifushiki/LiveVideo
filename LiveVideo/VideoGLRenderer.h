@@ -16,5 +16,6 @@
 
 - (id) initWithDefaultFBO: (GLuint) defaultFBOName withView:(DwGLBaseView *) itsVew;
 - (BOOL) updateTexture:(DwGLBaseView *) itsView;
+- (void) setToStaticTexture;
 
 @end

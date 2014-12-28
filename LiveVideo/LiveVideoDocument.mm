@@ -428,4 +428,23 @@ static CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,
     }
 }
 
+- (IBAction) setTextureMode:(id) sender;
+{
+    // Get the filter selection
+    NSButtonCell *cell = [sender selectedCell];
+    NSString* title = cell.title;
+    BOOL videoMode = NO;
+    
+    if (self.myGLView) {
+        if ([title isEqualToString:@"Static"]) {
+            videoMode = NO;
+        }
+        else if ([title isEqualToString:@"Video"]) {
+            videoMode = YES;
+        }
+        
+        [self.myGLView setTextureMode:videoMode];
+    }    
+}
+
 @end

@@ -94,6 +94,34 @@
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZHc-ee-0nG">
                         <rect key="frame" x="488" y="65" width="360" height="240"/>
                     </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aUq-PA-8ee">
+                        <rect key="frame" x="120" y="65" width="360" height="240"/>
+                    </customView>
+                    <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autorecalculatesCellSize="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U54-dL-Gdi">
+                        <rect key="frame" x="38" y="194" width="61" height="38"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        <size key="cellSize" width="58" height="18"/>
+                        <size key="intercellSpacing" width="4" height="2"/>
+                        <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="VPX-24-12e">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <cells>
+                            <column>
+                                <buttonCell type="radio" title="Static" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="Q48-bK-hVX">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <buttonCell type="radio" title="Video" imagePosition="left" alignment="left" inset="2" id="8aN-ZT-GaY">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </column>
+                        </cells>
+                        <connections>
+                            <action selector="setTextureMode:" target="-2" id="Dlm-eJ-GuS"/>
+                        </connections>
+                    </matrix>
                 </subviews>
             </view>
             <connections>

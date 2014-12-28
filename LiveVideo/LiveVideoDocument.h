@@ -33,6 +33,7 @@
 - (IBAction) setFilter:(id)sender;
 - (IBAction) setColorMode:(id)sender;
 - (IBAction) togglePlayMode:(id) sender;
+- (IBAction) setTextureMode:(id) sender;
 
 @end
 

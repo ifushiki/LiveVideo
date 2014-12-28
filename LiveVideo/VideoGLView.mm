@@ -15,6 +15,7 @@
 @implementation VideoGLView
 
 @synthesize imagePipe;
+@synthesize useVideoTexture;
 
 - (DwGLBaseRenderer *) createRenderer
 {
@@ -30,6 +31,8 @@
     if (self.imagePipe) {
         [self.imagePipe initBufferParameters:bounds withFlag:ImageBufferFlag_Input];
     }
+    
+    self.useVideoTexture = NO;
 }
 
 //======================================================================================
@@ -42,6 +45,16 @@
     if (self.imagePipe) {
         [self.imagePipe receiveImageData:dataBuffer withBytesPerRow:bytesPerRow1 withWidth:width1 withHeight:height1];
     }
+}
+
+- (void) setTextureMode:(BOOL) videoMode
+{
+    VideoGLRenderer *videoRenderer = (VideoGLRenderer *) self.m_renderer;
+    
+    if (videoRenderer && self.useVideoTexture == YES && videoMode == NO) {
+        [videoRenderer setToStaticTexture];
+    }
+    self.useVideoTexture = videoMode;
 }
 
 @end
