@@ -132,6 +132,9 @@ CAShapeLayer* createStarLayer(CGRect frame, CGColorRef color)
 
     // Stop the displayLink.
     CVDisplayLinkStop(self.displayLink);
+    
+    if (self.myGLView)
+        CVDisplayLinkStop(self.myGLView.displayLink);
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {
