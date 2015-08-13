@@ -17,6 +17,12 @@
 
 DwModel* mdlLoadTestModel();
 
+@interface VideoGLRenderer()
+
+@property (strong, nonatomic) NSMutableData *m_buffer;
+
+@end
+
 @implementation VideoGLRenderer
 
 DwVertexArray m_characterVertexArray;
@@ -44,7 +50,8 @@ GLfloat m_characterAngle;
         if (imagePipe.inputBuffer) {
             [imagePipe.inputBuffer getImageBufferInfo:&info];
             // Set the texture to be used
-            setTextureFromImageBuffer(m_characterTexName, &info);
+            self.m_buffer.length = info.bytesPerRow*info.height;
+            setTextureFromImageBuffer(m_characterTexName, &info, [self.m_buffer mutableBytes]);
         }
         
         [imagePipe setReadyToReceiveNewData:YES];
@@ -170,6 +177,8 @@ GLfloat m_characterAngle;
         
         self.m_viewWidth = 100;
         self.m_viewHeight = 100;
+        
+        self.m_buffer = [NSMutableData new];
         
         
         m_characterAngle = 0;
